@@ -1,6 +1,6 @@
-# SLIM 4 - API SKELETON
+# SLIM 4 - API FOR CHURCH APP
 
-Useful skeleton for RESTful API development, using [Slim PHP micro-framework](https://www.slimframework.com).
+SLIM FRAMEWORK [Slim PHP micro-framework](https://www.slimframework.com).
 
 
 [![Software License][ico-license]](LICENSE.md)
@@ -9,7 +9,6 @@ Useful skeleton for RESTful API development, using [Slim PHP micro-framework](ht
 [![Packagist Version](https://img.shields.io/packagist/v/maurobonfietti/slim4-api-skeleton)](https://packagist.org/packages/maurobonfietti/slim4-api-skeleton)
 
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat
-
 
 ## :computer: TECHNOLOGIES USED:
 
@@ -23,7 +22,6 @@ The main technologies used in this project are:
 - Docker
 - Docker Compose
 
-
 ## :gear: QUICK INSTALL:
 
 ### Requirements:
@@ -34,12 +32,12 @@ The main technologies used in this project are:
 - or Docker.
 
 
-### With Composer:
+### With Git:
 
 You can create a new project running the following commands:
 
 ```bash
-composer create-project maurobonfietti/slim4-api-skeleton [my-api-name]
+git clone git@github.com:nzian/churchapp.git [my-api-name]
 cd [my-api-name]
 composer test
 composer start
@@ -93,7 +91,7 @@ docker-compose down
 - [slim/slim](https://github.com/slimphp/Slim): Slim is a PHP micro framework that helps you quickly write simple yet powerful web applications and APIs.
 - [slim/psr7](https://github.com/slimphp/Slim-Psr7): PSR-7 implementation for use with Slim 4.
 - [pimple/pimple](https://github.com/silexphp/Pimple): A small PHP dependency injection container.
-- [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv): Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.
+- [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv): Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` auto magically.
 
 ### LIST OF DEVELOPMENT DEPENDENCIES:
 
@@ -101,7 +99,6 @@ docker-compose down
 - [symfony/console](https://github.com/symfony/console): The Console component eases the creation of beautiful and testable command line interfaces.
 - [nunomaduro/phpinsights](https://github.com/nunomaduro/phpinsights): Instant PHP quality checks from your console.
 - [maurobonfietti/slim4-api-skeleton-crud-generator](https://github.com/maurobonfietti/slim4-api-skeleton-crud-generator): CRUD Generator for Slim 4 - Api Skeleton.
-
 
 ## :bookmark: ENDPOINTS:
 
@@ -111,23 +108,11 @@ docker-compose down
 
 - Health Check: `GET /status`
 
-
-## :video_camera: TUTORIAL:
-
-Learn how to develop a RESTful API with PHP and Slim 4 by following this [video](https://youtu.be/DetK1w65S-k) [:movie_camera: :sound: :es: :argentina:]
-
-
-https://user-images.githubusercontent.com/24535949/180607903-7efd2cfc-b1df-4ad6-8295-801585df3b83.mp4
-
-
 ## :heart: SUPPORT THE PROJECT
 
 If you would like to support this project, you can:
-- Invite the author a coffee :coffee: :yum:
+
 - Give a star to the repository :star: :blush:
-
-[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/maurobonfietti)
-
 
 ## :sunglasses: AND THAT'S IT!
 
