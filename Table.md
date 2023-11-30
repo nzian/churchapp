@@ -11,6 +11,7 @@ created_by and updated_by is always reference an user. May be pastor may be syst
 - created_by
 - updated_by
 - church_id
+- pastor_id
 - created_at
 - updated_at
 - deleted_at
@@ -59,7 +60,7 @@ When pastor publish any notification then it will filled with user_id and notifi
 
 - id
 - name
-- firebase_id
+- firebaseId
 - address
 - location
 - social_media_links

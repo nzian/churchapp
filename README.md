@@ -58,31 +58,14 @@ DB_PASS='yourMySqlPassword'
 DB_PORT='3306'
 ```
 
+## Migrations
 
-### With Docker:
+You can do your migration with bellow command
+run this for see available command
 
-If you like Docker, you can use this project with **Docker** and **Docker Compose**.
+``` composer migration ```
 
-
-**Minimal Docker Version:**
-
-* Engine: 18.03+
-* Compose: 1.21+
-
-
-**Docker Commands:**
-
-```bash
-# Create and start containers for the API.
-docker-compose up -d --build
-
-# Checkout the API.
-curl http://localhost:8081
-
-# Stop and remove containers.
-docker-compose down
-```
-
+You will see all available commands. You also can see the details of the command and with --help you can see more details of the command. Or if you have database tables definition already then either you use reverse migration process to generate migrations file or skip and ready to generate api end points.
 
 ## :package: DEPENDENCIES:
 
@@ -92,6 +75,7 @@ docker-compose down
 - [slim/psr7](https://github.com/slimphp/Slim-Psr7): PSR-7 implementation for use with Slim 4.
 - [pimple/pimple](https://github.com/silexphp/Pimple): A small PHP dependency injection container.
 - [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv): Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` auto magically.
+- [lulco/phoenix](https://github.com/lulco/phoenix): Database migration with mysql and postgres database
 
 ### LIST OF DEVELOPMENT DEPENDENCIES:
 

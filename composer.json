@@ -22,8 +22,9 @@
   ],
   "require": {
     "php": "^8.1",
-    "ext-pdo": "*",
     "ext-json": "*",
+    "ext-pdo": "*",
+    "lulco/phoenix": "^0.13.0",
     "pimple/pimple": "^3.2",
     "slim/psr7": "^1.4.0",
     "slim/slim": "^4.5",
@@ -64,6 +65,7 @@
     "down": "docker-compose down",
     "start": "php -S localhost:8088 -t public public/index.php",
     "test": "phpunit",
-    "up": "docker-compose up -d --build"
+    "up": "docker-compose up -d --build",
+    "migration": "vendor/bin/phoenix"
   }
 }

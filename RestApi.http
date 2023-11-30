@@ -1,0 +1,4 @@
+#GET http://devng.churchapp:5000/churches
+
+
+POST http://devng.churchapp:5000/churches HTTP/1.1 content-type: appliccation/json { "name" : "cfc", "firebaseId" : "123456", "adress": "london", "location" : "central london", "created_by": 1, "social_media_link" : "{\"facebook\": \"https://facebook.com/devnzian\"}", "created_at": "2023-11-15 10:26:59"}
