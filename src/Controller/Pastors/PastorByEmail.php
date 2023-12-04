@@ -8,6 +8,7 @@ use App\CustomResponse as Response;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Traits\DataResponse;
+use stdClass;
 
 final class PastorByEmail extends Base
 {
@@ -16,7 +17,10 @@ final class PastorByEmail extends Base
     {
         $input = (array) $request->getParsedBody();
         $pastors = $this->getPastorsService()->getPastorByEmail($input);
-
+        if($pastors === null) {
+            $pastors = new stdClass();
+            return $response->withJson($this->updateDataBeforeSendToResponse($pastors, 404, "User Not found in the system"));
+        }
         return $response->withJson($this->updateDataBeforeSendToResponse($pastors), StatusCodeInterface::STATUS_CREATED);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 $app->get('/', 'App\Controller\Home:getHelp');
 $app->get('/status', 'App\Controller\Home:getStatus');
+$app->get('/data', 'App\Controller\Home:getJsonData');
 
 
 $app->get('/churches', App\Controller\Churches\GetAll::class);
@@ -15,6 +16,9 @@ $app->delete('/churches/{id}', App\Controller\Churches\Delete::class);
 $app->get('/users', App\Controller\Users\GetAll::class);
 $app->post('/users', App\Controller\Users\Create::class);
 $app->get('/users/{id}', App\Controller\Users\GetOne::class);
+
+$app->post('/users/by-email', App\Controller\Users\GetUserByEmail::class);
+
 $app->put('/users/{id}', App\Controller\Users\Update::class);
 $app->delete('/users/{id}', App\Controller\Users\Delete::class);
 

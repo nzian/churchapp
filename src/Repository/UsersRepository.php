@@ -126,4 +126,17 @@ final class UsersRepository
         $statement->execute();
         return (array) $statement->fetchAll();
     }
+
+    public function checkAndGetByEmail(string $email): null|object {
+        $query = 'SELECT * FROM `users` WHERE `email` = :email';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('email', $email);
+        $statement->execute();
+        $users = $statement->fetchObject();
+        if (!$users) {
+            throw new \Exception('User not found.', 404);
+        }
+
+        return $users;
+    }
 }

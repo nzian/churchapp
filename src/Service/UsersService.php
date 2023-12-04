@@ -22,6 +22,10 @@ final class UsersService
         return $this->usersRepository->checkAndGet($usersId);
     }
 
+    public function checkAndGetByEmail(string $email) {
+        return $this->usersRepository->checkAndGetByEmail($email);
+    }
+
     public function getAll(): array
     {
         return $this->removeDeletedEntries($this->usersRepository->getAll());
@@ -60,5 +64,9 @@ final class UsersService
     }
     public function getChurchUserIds(int $church_id, string $columns) : array {
         return $this->usersRepository->getDataBySelection($church_id, $columns);
+    }
+
+    public function GetUserByEmail(array $input) {
+        return $this->removeDeletedEntry($this->checkAndGetByEmail($input['email']));
     }
 }
