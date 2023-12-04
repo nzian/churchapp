@@ -21,11 +21,15 @@ final class Update extends Base
         array $args
     ): Response {
         $input = (array) $request->getParsedBody();
+        if(array_key_exists('social_media_link', $input)) {
+            $input['social_media_link'] = json_encode($input['social_media_link']);
+        }
         $pastors = $this->getPastorsService()->update($input, (int) $args['id']);
         if($pastors === null) {
             $pastors = new stdClass();
             return $response->withJson($this->updateDataBeforeSendToResponse($pastors, 404, "Pastor Not found in the system"));
         }
+        $pastors->social_media_link = json_decode($pastors->social_media_link, true);
         return $response->withJson($this->updateDataBeforeSendToResponse($pastors));
     }
 }

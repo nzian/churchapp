@@ -26,6 +26,11 @@ $app->delete('/user_notifications/{id}', App\Controller\User_notifications\Delet
 
 $app->get('/pastors', App\Controller\Pastors\GetAll::class);
 $app->post('/pastors', App\Controller\Pastors\Create::class);
+
+$app->post('/pastors/by-email', App\Controller\Pastors\PastorByEmail::class);
+$app->get('/pastors/notification/{id}', App\Controller\Notifications\PastorNotifications::class);
+$app->get('/pastors/{pastor_id}/notification/delete/{id}', App\Controller\Notifications\PastorNotificationDelete::class);
+
 $app->get('/pastors/{id}', App\Controller\Pastors\GetOne::class);
 $app->put('/pastors/{id}', App\Controller\Pastors\Update::class);
 $app->delete('/pastors/{id}', App\Controller\Pastors\Delete::class);

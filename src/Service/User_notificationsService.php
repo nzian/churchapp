@@ -54,4 +54,11 @@ final class User_notificationsService
         $this->checkAndGet($user_notificationsId);
         $this->user_notificationsRepository->delete($user_notificationsId);
     }
+    public function createUserNotifications(array $insert_data): void {
+        $this->user_notificationsRepository->bulkInsert($insert_data);
+    }
+
+    public function deleteByNotificationId(int $notification_id): void {
+        $this->user_notificationsRepository->deleteByNotificationId($notification_id);
+    }
 }

@@ -22,6 +22,10 @@ final class PastorsService
         return $this->pastorsRepository->checkAndGet($pastorsId);
     }
 
+    public function checkAndGetByEmail(string $email) {
+        return $this->pastorsRepository->checkAndGetByEmail($email);
+    }
+
     public function getAll(): array
     {
         return $this->removeDeletedEntries($this->pastorsRepository->getAll());
@@ -53,5 +57,9 @@ final class PastorsService
     {
         $this->checkAndGet($pastorsId);
         $this->pastorsRepository->delete($pastorsId);
+    }
+
+    public function getPastorByEmail(array $input) {
+        return $this->removeDeletedEntry($this->checkAndGetByEmail($input['email']));
     }
 }

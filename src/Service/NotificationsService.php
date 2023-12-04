@@ -54,4 +54,13 @@ final class NotificationsService
         $this->checkAndGet($notificationsId);
         $this->notificationsRepository->delete($notificationsId);
     }
+
+    public function getNotificationByPastor(int $pastor_id) {
+        return $this->notificationsRepository->getNotificationByPastor($pastor_id);
+    }
+
+    public function checkPastorOwnNotification(int $pastor_id, $notification_id): bool {
+        $result = $this->notificationsRepository->pastorOwnNotification($pastor_id, $notification_id);
+        return $result;
+    }
 }

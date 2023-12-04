@@ -123,4 +123,22 @@ final class NotificationsRepository
         $statement->bindParam('id', $notificationsId);
         $statement->execute();
     }
+
+    public function getNotificationByPastor(int $pastor_id): array {
+        $query = 'SELECT * FROM `notifications` WHERE `created_by` = :created_by ORDER BY `id` DESC';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('created_by', $pastor_id);
+        $statement->execute();
+
+        return (array) $statement->fetchAll();
+    }
+    public function pastorOwnNotification(int $pastor_id, int $id) : bool {
+
+        $query = 'SELECT id FROM `notifications` WHERE `created_by` = :created_by AND `id` = :id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('created_by', $pastor_id);
+        $statement->bindParam('id', $id);
+        $statement->execute();
+        return $statement->rowCount() > 0;
+    }
 }

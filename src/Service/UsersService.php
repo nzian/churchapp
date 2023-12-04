@@ -54,4 +54,11 @@ final class UsersService
         $this->checkAndGet($usersId);
         $this->usersRepository->delete($usersId);
     }
+
+    public function churchUserDeviceToken(int $church_id, string $columns) : array {
+        return $this->usersRepository->getDataBySelection($church_id, $columns);
+    }
+    public function getChurchUserIds(int $church_id, string $columns) : array {
+        return $this->usersRepository->getDataBySelection($church_id, $columns);
+    }
 }

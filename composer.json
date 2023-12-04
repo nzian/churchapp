@@ -24,10 +24,12 @@
     "php": "^8.1",
     "ext-json": "*",
     "ext-pdo": "*",
+    "edwinhoksberg/php-fcm": "^1.2",
     "lulco/phoenix": "^0.13.0",
     "pimple/pimple": "^3.2",
     "slim/psr7": "^1.4.0",
     "slim/slim": "^4.5",
+    "tuupola/slim-basic-auth": "^3.3",
     "vlucas/phpdotenv": "^5.1"
   },
   "require-dev": {

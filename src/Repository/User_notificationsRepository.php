@@ -108,4 +108,33 @@ final class User_notificationsRepository
         $statement->bindParam('id', $user_notificationsId);
         $statement->execute();
     }
+    public function bulkInsert(array $insert_data): void {
+        // now implement bulk insert
+        // create the ?,? sequence for a single row
+        try {
+            $values = str_repeat('?,', count($insert_data[0]) - 1) . '?';
+        // construct the entire query
+        $query = "INSERT INTO `user_notifications` (`user_id`, `church_id`, `notification_id`, `read`, `created_at`) VALUES " .
+            // repeat the (?,?) sequence for each row
+            str_repeat("($values),", count($insert_data) - 1) . "($values)";    
+
+        $statement = $this->getDb()->prepare($query);
+        // execute with all values from $data
+        $statement->execute(array_merge(...$insert_data));
+        }
+        catch(\Exception $exception) {
+            throw new \Exception('Error in bulk insert into user_notifications t', 404);
+        }
+        
+    }
+
+    public function deleteByNotificationId(int $notification_id) : void {
+        // delete all notification related notification_id
+        $deleted_at = date('Y-m-d h:i:s');
+        $query = 'UPDATE `user_notifications` SET `deleted_at` = :deleted_at WHERE `notification_id` = :notification_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('deleted_at', $deleted_at);
+        $statement->bindParam('notification_id', $notification_id);
+        $statement->execute();
+    }
 }
