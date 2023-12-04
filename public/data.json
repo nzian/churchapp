@@ -1,6 +1,7 @@
 {
   "version": "0.0.1",
   "churchName": "cfc1",
+  "website": "https://cfcbrakpan.co.za/en/",
   "apiBaseUrl": "https://churchapp.nzian.xyz",
   "pastorName": "Oliver",
   "pastorEmail": "oliver90@gmail.com",
