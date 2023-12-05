@@ -43,7 +43,7 @@ final class ChurchesRepository
 
     public function create(object $churches): object
     {
-        $query = 'INSERT INTO `churches` (`id`, `name`, `firebaseId`, `address`, `location`, `social_media_link`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES (:id, :name, :firebaseId, :address, :location, :social_media_link, :status, :created_at, :updated_at, :deleted_at)';
+        $query = 'INSERT INTO `churches` (`id`, `name`, `firebaseId`, `address`, `location`, `social_media_link`, `status`, `notification_delete_cycle`, `created_at`, `updated_at`, `deleted_at`) VALUES (:id, :name, :firebaseId, :address, :location, :social_media_link, :status, :created_at, :updated_at, :deleted_at)';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('id', $churches->id);
         $statement->bindParam('name', $churches->name);
@@ -52,6 +52,7 @@ final class ChurchesRepository
         $statement->bindParam('location', $churches->location);
         $statement->bindParam('social_media_link', $churches->social_media_link);
         $statement->bindParam('status', $churches->status);
+        $statement->bindParam('notification_delete_cycle', $churches->notification_delete_cycle ?? 30);
         $statement->bindParam('created_at', $churches->created_at);
         $statement->bindParam('updated_at', $churches->updated_at);
         $statement->bindParam('deleted_at', $churches->deleted_at);
@@ -81,6 +82,9 @@ final class ChurchesRepository
         if (isset($data->status)) {
             $churches->status = $data->status;
         }
+        if(isset($data->notification_delete_cycle)) {
+            $churches->notification_delete_cycle = $data->notification_delete_cycle;
+        }
         if (isset($data->created_at)) {
             $churches->created_at = $data->created_at;
         }
@@ -91,7 +95,7 @@ final class ChurchesRepository
             $churches->deleted_at = $data->deleted_at;
         }
 
-        $query = 'UPDATE `churches` SET `name` = :name, `firebaseId` = :firebaseId, `address` = :address, `location` = :location, `social_media_link` = :social_media_link, `status` = :status, `created_at` = :created_at, `updated_at` = :updated_at, `deleted_at` = :deleted_at WHERE `id` = :id';
+        $query = 'UPDATE `churches` SET `name` = :name, `firebaseId` = :firebaseId, `address` = :address, `location` = :location, `social_media_link` = :social_media_link, `status` = :status, `notification_delete_cycle` = :notification_delete_cycle, `created_at` = :created_at, `updated_at` = :updated_at, `deleted_at` = :deleted_at WHERE `id` = :id';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('id', $churches->id);
         $statement->bindParam('name', $churches->name);
@@ -100,6 +104,7 @@ final class ChurchesRepository
         $statement->bindParam('location', $churches->location);
         $statement->bindParam('social_media_link', $churches->social_media_link);
         $statement->bindParam('status', $churches->status);
+        $statement->bindParam('notification_delete_cycle', $churches->notification_delete_cycle);
         $statement->bindParam('created_at', $churches->created_at);
         $statement->bindParam('updated_at', $churches->updated_at);
         $statement->bindParam('deleted_at', $churches->deleted_at);

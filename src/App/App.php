@@ -3,6 +3,9 @@
 declare(strict_types=1);
 
 require __DIR__ . '/../../vendor/autoload.php';
+
+(new SecureEnvPHP\SecureEnvPHP())->parse(__DIR__ . '/../../.env.enc', __DIR__ . '/../../.env.key');
+
 require __DIR__ . '/DotEnv.php';
 require_once __DIR__.'/CustomResponse.php';
 require_once __DIR__.'/ResponseFactory.php';

@@ -1,0 +1,15 @@
+DB_HOST='127.0.0.1'
+DB_NAME='churchappapi'
+DB_USER='admin'
+DB_PASS='yourpass'
+DB_PORT='3306'
+CONFIG_FILE='/public/data.enc'
+FCM_API_KEY=''
+FCM_SENDER_ID=''
+API_USER='churchapi'
+API_PASSWORD='kljdklHFR76sTRAKasdkljdljasdh#$@3487234239'
+API_SECURE=true
+ENCRYPT_KEY_FILE='/encrypt.key'
+
+DISPLAY_ERROR_DETAILS=true
+SLIM_BASE_PATH=''

@@ -20,7 +20,7 @@ final class User_notificationsRepository
 
     public function checkAndGet(int $user_notificationsId): object
     {
-        $query = 'SELECT * FROM `user_notifications` WHERE `id` = :id';
+        $query = 'SELECT `user_notifications`.*,`notifications`.title,`notifications`.description, `notifications`.published_at FROM `user_notifications` LEFT JOIN `notifications` ON `user_notifications`.notification_id = `notifications`.id WHERE `user_notifications`.id = :id AND `user_notifications`.deleted_at is NULL';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('id', $user_notificationsId);
         $statement->execute();
@@ -109,21 +109,24 @@ final class User_notificationsRepository
         $statement->execute();
     }
     public function bulkInsert(array $insert_data): void {
-        // now implement bulk insert
-        // create the ?,? sequence for a single row
         try {
-            $values = str_repeat('?,', count($insert_data[0]) - 1) . '?';
-        // construct the entire query
-        $query = "INSERT INTO `user_notifications` (`user_id`, `church_id`, `notification_id`, `read`, `created_at`) VALUES " .
-            // repeat the (?,?) sequence for each row
-            str_repeat("($values),", count($insert_data) - 1) . "($values)";    
-
-        $statement = $this->getDb()->prepare($query);
-        // execute with all values from $data
-        $statement->execute(array_merge(...$insert_data));
+            foreach($insert_data as $rowData) {
+                $query = 'INSERT INTO `user_notifications` (`user_id`, `church_id`, `notification_id`, `read`, `created_at`) VALUES (:user_id, :church_id, :notification_id, :read, :created_at)';
+                $statement = $this->getDb()->prepare($query);
+                //$statement->bindParam('id', $rowData['id']);
+                $statement->bindParam('user_id', $rowData['user_id']);
+                $statement->bindParam('church_id', $rowData['church_id']);
+                $statement->bindParam('notification_id', $rowData['notification_id']);
+                $statement->bindParam('read', $rowData['read']);
+                $statement->bindParam('created_at',$rowData['created_at']);
+                //$statement->bindParam('updated_at', $user_notifications->updated_at);
+                //$statement->bindParam('deleted_at', $user_notifications->deleted_at);
+        
+                $statement->execute();
+            } 
         }
         catch(\Exception $exception) {
-            throw new \Exception('Error in bulk insert into user_notifications t', 404);
+            throw new \Exception('Error in bulk insert into user_notifications' . $exception->getMessage(), $exception->getCode());
         }
         
     }
@@ -136,5 +139,60 @@ final class User_notificationsRepository
         $statement->bindParam('deleted_at', $deleted_at);
         $statement->bindParam('notification_id', $notification_id);
         $statement->execute();
+    }
+
+    public function getUserNotificationsByUserId(int $user_id) : array {
+        $query = 'SELECT `user_notifications`.*,`notifications`.title,`notifications`.description, `notifications`.published_at FROM `user_notifications` LEFT JOIN `notifications` ON `user_notifications`.notification_id = `notifications`.id WHERE `user_notifications`.user_id = :user_id AND `user_notifications`.deleted_at is NULL';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('user_id', $user_id);
+        $statement->execute();
+        $user_notifications = $statement->fetchAll();
+        if (!$user_notifications) {
+            throw new \Exception('User_notifications not found.', 404);
+        }
+        return $user_notifications;
+    }
+
+    private function countNotification(int $user_id, string $mode) : int {
+        $read = 0;
+        if($mode === 'read') {
+            $read = 1;
+        }
+        if($mode === 'total') {
+            $query = 'SELECT COUNT(`id`) AS `' . $mode . '`, `user_id` FROM user_notifications WHERE `user_id` = :user_id AND deleted_at is NULL GROUP BY `user_id`';
+            $statement = $this->getDb()->prepare($query);
+            $statement->bindParam('user_id', $user_notificationsId);
+        }
+        else {
+            $query = 'SELECT COUNT(`id`) as `' . $mode . '`, `user_id` FROM user_notifications WHERE `user_id` = :user_id AND `read` = :read AND deleted_at is NULL GROUP BY `user_id`';
+            $statement = $this->getDb()->prepare($query);
+            $statement->bindParam('user_id', $user_id);
+            $statement->bindParam('read', $read);
+        }
+        $statement->execute();
+        $notification_state = $statement->fetchObject();
+        if($notification_state && $notification_state->$mode > 0) {
+            return $notification_state->$mode;
+        }
+        return 0;
+    }
+
+    public function getUserNotificationsStatisticsByUserId(int $user_id): array {
+        return [
+            'read' => $this->countNotification($user_id, 'read'),
+            'unread' => $this->countNotification($user_id, 'unread'),
+            'total' => $this->countNotification($user_id, 'total'),
+        ];
+    }
+    
+    public function UpdateUserNotification(int $read, int $user_id, int $notification_id): null|object {
+        $query = 'UPDATE `user_notifications` SET `read` = :read WHERE `user_id` = :user_id AND `id` = :notification_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('user_id', $user_id);
+        $statement->bindParam('read', $read);
+        $statement->bindParam('notification_id', $notification_id);
+        if($statement->execute()) {
+            return $this->checkAndGet((int)$notification_id);
+        }
     }
 }

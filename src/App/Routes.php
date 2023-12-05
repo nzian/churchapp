@@ -5,6 +5,8 @@ declare(strict_types=1);
 $app->get('/', 'App\Controller\Home:getHelp');
 $app->get('/status', 'App\Controller\Home:getStatus');
 $app->get('/data', 'App\Controller\Home:getJsonData');
+$app->get('/cfc2/data', 'App\Controller\Home:getCfc2JsonData');
+$app->get('/cfc3/data', 'App\Controller\Home:getCfc3JsonData');
 
 
 $app->get('/churches', App\Controller\Churches\GetAll::class);
@@ -18,6 +20,11 @@ $app->post('/users', App\Controller\Users\Create::class);
 $app->get('/users/{id}', App\Controller\Users\GetOne::class);
 
 $app->post('/users/by-email', App\Controller\Users\GetUserByEmail::class);
+
+
+$app->get('/users/{id}/notifications', App\Controller\Users\GetUserNotifications::class);
+$app->get('/users/{user_id}/notifications/read/{notification_id}', App\Controller\Users\UpdateUserNotificationsRead::class);
+$app->get('/users/{user_id}/notifications/unread/{notification_id}', App\Controller\Users\UpdateUserNotificationsUnread::class);
 
 $app->put('/users/{id}', App\Controller\Users\Update::class);
 $app->delete('/users/{id}', App\Controller\Users\Delete::class);

@@ -61,4 +61,20 @@ final class User_notificationsService
     public function deleteByNotificationId(int $notification_id): void {
         $this->user_notificationsRepository->deleteByNotificationId($notification_id);
     }
+
+    public function getUserNotificationsByUserId(int $user_id) : array {
+        // not only send notifications but also user notification statistics
+        $result = [
+            'notifications' => [],
+            'statistics' => []
+        ];
+        $result['notifications'] = $this->user_notificationsRepository->getUserNotificationsByUserId($user_id);
+        $result['statistics'] = $this->user_notificationsRepository->getUserNotificationsStatisticsByUserId($user_id);
+        return $result;
+    }
+
+
+    public function updateNotification(int $read, int $user_id, int $notification_id): null|object {
+        return $this->user_notificationsRepository->UpdateUserNotification($read, $user_id, $notification_id);
+    }
 }
