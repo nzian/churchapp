@@ -40,6 +40,14 @@ final class UsersService
     {
         $users = json_decode((string) json_encode($input), false);
 
+
+if(property_exists($users, 'device_token')) {
+    $user =  $this->usersRepository->checkAndGetByToken($users->device_token);
+    if($user instanceof object) {
+        return $user;
+    }
+}
+
         return $this->usersRepository->create($users);
     }
 
