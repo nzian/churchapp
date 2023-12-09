@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Repository\UsersRepository;
 use App\Traits\CheckDeletedEntry;
+use stdClass;
 
 final class UsersService
 {
@@ -42,12 +43,15 @@ final class UsersService
 
 
 if(property_exists($users, 'device_token')) {
+
+
     $user =  $this->usersRepository->checkAndGetByToken($users->device_token);
-    if($user instanceof object) {
+   // print_r($user);exit;
+    if($user instanceof stdClass) {
         return $user;
     }
 }
-
+    
         return $this->usersRepository->create($users);
     }
 

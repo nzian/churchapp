@@ -32,7 +32,7 @@ final class UsersRepository
         return $users;
     }
 
-    public function checkAndGetByToken(string $device_token): object
+    public function checkAndGetByToken(string $device_token): null|object
     {
         $query = 'SELECT * FROM `users` WHERE `device_token` = :device_token';
         $statement = $this->getDb()->prepare($query);
@@ -40,7 +40,8 @@ final class UsersRepository
         $statement->execute();
         $users = $statement->fetchObject();
         if (!$users) {
-            throw new \Exception('Users not found.', 404);
+return null;
+
         }
 
         return $users;
