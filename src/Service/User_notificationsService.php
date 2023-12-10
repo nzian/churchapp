@@ -77,4 +77,8 @@ final class User_notificationsService
     public function updateNotification(int $read, int $user_id, int $notification_id): null|object {
         return $this->user_notificationsRepository->UpdateUserNotification($read, $user_id, $notification_id);
     }
+
+    public function deleteByDate(string $date): void {
+        $this->user_notificationsRepository->deleteOldEntryByDate($date);
+    }
 }

@@ -13,6 +13,8 @@ $key = unserialize(file_get_contents('encrypt.key'));
 $message = file_get_contents('public/data.json');
 
 $ciphertext = Crypto::encrypt($message, $key);
+file_put_contents('public/data.enc', $ciphertext);
+
 $plaintext = Crypto::decrypt($ciphertext, $key);
 
 var_dump($ciphertext);

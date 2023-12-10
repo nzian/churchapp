@@ -195,4 +195,13 @@ final class User_notificationsRepository
             return $this->checkAndGet((int)$notification_id);
         }
     }
+
+    public function deleteOldEntryByDate(string $date): void {
+        $deleted_at = date('Y-m-d h:i:s');
+        $query = 'UPDATE `user_notifications` SET `deleted_at` = :deleted_at WHERE `created_at` <= :date';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('deleted_at', $deleted_at);
+        $statement->bindParam('date', $date);
+        $statement->execute();
+    }
 }

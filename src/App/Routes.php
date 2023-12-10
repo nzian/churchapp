@@ -7,6 +7,8 @@ $app->get('/status', 'App\Controller\Home:getStatus');
 $app->get('/data', 'App\Controller\Home:getJsonData');
 $app->get('/cfc2/data', 'App\Controller\Home:getCfc2JsonData');
 $app->get('/cfc3/data', 'App\Controller\Home:getCfc3JsonData');
+$app->get('/remove-old-notification', 'App\Controller\Home:removeOldNotification');
+
 
 
 $app->get('/churches', App\Controller\Churches\GetAll::class);

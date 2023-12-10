@@ -5,13 +5,18 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\CustomResponse as Response;
+use App\Service\NotificationsService;
+use App\Service\ChurchesService;
+use App\Service\User_notificationsService;
 use Pimple\Psr11\Container;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Traits\ConfigData;
+use App\Traits\DataResponse;
 
 final class Home
 {
     use ConfigData;
+    use DataResponse;
     private const API_NAME = 'slim4-api-skeleton';
 
     private const API_VERSION = '0.41.0';
@@ -21,6 +26,19 @@ final class Home
     public function __construct(Container $container)
     {
         $this->container = $container;
+    }
+
+    protected function getChurchesService(): ChurchesService
+    {
+        return $this->container->get('churches_service');
+    }
+
+    protected function getNotificationsService(): NotificationsService {
+        return $this->container->get('notifications_service');
+    }
+
+    protected function getUserNotificationsService(): User_notificationsService {
+        return $this->container->get('user_notifications_service');
     }
 
     public function getJsonData(Request $request, Response $response): Response {
@@ -62,5 +80,17 @@ final class Home
         ];
 
         return $response->withJson($status);
+    }
+
+    public function removeOldNotification(Request $request, Response $response) : Response {
+        // fine the settings how many days older message should be deleted.
+
+        $church = $this->getChurchesService()->getOne(1);
+        $older_date = date('Y-m-d h:i:s',strtotime('today - ' .$church->notification_delete_cycle .  ' days'));
+        // then update those notification and user notification table entry updated with deleted_at
+        $this->getNotificationsService()->deleteByDate($older_date);
+        $this->getUserNotificationsService()->deleteByDate($older_date);
+
+        return $response->withJson($this->updateDataBeforeSendToResponse([]));
     }
 }

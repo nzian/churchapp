@@ -55,6 +55,10 @@ final class NotificationsService
         $this->notificationsRepository->delete($notificationsId);
     }
 
+    public function deleteByDate(string $date) :void {
+        $this->notificationsRepository->deleteOldEntryByDate($date);
+    }
+
     public function getNotificationByPastor(int $pastor_id) {
 return $this->removeDeletedEntries($this->notificationsRepository->getNotificationByPastor($pastor_id));
 

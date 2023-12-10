@@ -141,4 +141,13 @@ final class NotificationsRepository
         $statement->execute();
         return $statement->rowCount() > 0;
     }
+
+    public function deleteOldEntryByDate(string $date) : void {
+        $deleted_at = date('Y-m-d h:i:s');
+        $query = 'UPDATE `notifications` SET `deleted_at` = :deleted_at WHERE `created_at` <= :date';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('deleted_at', $deleted_at);
+        $statement->bindParam('date', $date);
+        $statement->execute();
+    }
 }
