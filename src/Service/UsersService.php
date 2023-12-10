@@ -50,10 +50,13 @@ final class UsersService
 if(property_exists($users, 'device_token')) {
 
 
-    $user =  $this->removeDeletedEntry($this->usersRepository->checkAndGetByToken($users->device_token));
+    $user =  $this->usersRepository->checkAndGetByToken($users->device_token);
    // print_r($user);exit;
     if($user instanceof stdClass) {
-        return $user;
+        $valid_user =  $this->removeDeletedEntry($user);
+        if($valid_user === null && $valid_user instanceof stdClass) {
+            return $valid_user;
+        }
     }
 }
         return $this->usersRepository->create($users);
