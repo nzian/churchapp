@@ -56,7 +56,8 @@ final class NotificationsService
     }
 
     public function getNotificationByPastor(int $pastor_id) {
-        return $this->notificationsRepository->getNotificationByPastor($pastor_id);
+return $this->removeDeletedEntries($this->notificationsRepository->getNotificationByPastor($pastor_id));
+
     }
 
     public function checkPastorOwnNotification(int $pastor_id, $notification_id): bool {
