@@ -142,7 +142,8 @@ final class User_notificationsRepository
     }
 
     public function getUserNotificationsByUserId(int $user_id) : array {
-        $query = 'SELECT `user_notifications`.*,`notifications`.title,`notifications`.description, `notifications`.published_at FROM `user_notifications` LEFT JOIN `notifications` ON `user_notifications`.notification_id = `notifications`.id WHERE `user_notifications`.user_id = :user_id AND `user_notifications`.deleted_at is NULL';
+$query = 'SELECT `user_notifications`.*,`notifications`.title,`notifications`.description, `notifications`.published_at FROM `user_notifications` LEFT JOIN `notifications` ON `user_notifications`.notification_id = `notifications`.id WHERE `user_notifications`.user_id = :user_id AND `user_notifications`.deleted_at is NULL ORDER BY `user_notifications`.id DESC';
+
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('user_id', $user_id);
         $statement->execute();

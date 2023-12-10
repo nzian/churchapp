@@ -36,6 +36,11 @@ final class NotificationsService
     {
         $notifications = json_decode((string) json_encode($input), false);
 
+
+$notifications->created_at = date('Y-m-d h:i:s');
+$notifications->published_at = date('Y-m-d h:i:s');
+$notifications->published = 1;
+
         return $this->notificationsRepository->create($notifications);
     }
 

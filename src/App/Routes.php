@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+
 $app->get('/', 'App\Controller\Home:getHelp');
 $app->get('/status', 'App\Controller\Home:getStatus');
 $app->get('/data', 'App\Controller\Home:getJsonData');
@@ -49,7 +50,9 @@ $app->put('/pastors/{id}', App\Controller\Pastors\Update::class);
 $app->delete('/pastors/{id}', App\Controller\Pastors\Delete::class);
 
 $app->get('/notifications', App\Controller\Notifications\GetAll::class);
+
 $app->post('/notifications', App\Controller\Notifications\Create::class);
+
 $app->get('/notifications/{id}', App\Controller\Notifications\GetOne::class);
 $app->put('/notifications/{id}', App\Controller\Notifications\Update::class);
 $app->delete('/notifications/{id}', App\Controller\Notifications\Delete::class);

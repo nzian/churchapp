@@ -10,6 +10,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Traits\DataResponse;
 use App\Traits\ConfigData;
 use App\Traits\PushNotification;
+use Valitron\Validator;
 
 final class Create extends Base
 {
@@ -20,6 +21,13 @@ final class Create extends Base
     {
         $this->config = $this->getConfigData();
         $input = (array) $request->getParsedBody();
+
+$validation = new Validator($input);
+$validation->rule('required', ['title','description','created_by', 'church_id']);
+if(!$validation->validate()) {
+    return $response->withJson($this->updateDataBeforeSendToResponse($validation->errors(), 500, 'Validation error'), StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR);
+}
+
         $notifications = $this->getNotificationsService()->create($input);
 
         $church_users_device_tokens = $this->getUsersService()->churchUserDeviceToken($this->church_id, '`device_token`');
@@ -33,16 +41,18 @@ final class Create extends Base
             // as its bulk insert so we are prepare those data first then send to insert function
             $users_id = $this->getUsersService()->getChurchUserIds($this->church_id, '`id`');
             $insert_data = [];
-            foreach($users_id as $user_id) {
-                $insert_data[] = [
-                    'user_id' => $user_id['id'],
-                    'church_id' => $this->church_id,
-                    'notification_id' => $notifications->id,
-                    'read' => 0,
-                    'created_at' => date('Y-m-d h:i:s', time())
-                ];
-            }
-            $this->getUserNotificationService()->createUserNotifications($insert_data);
+            if(count($users_id) > 0) : 
+                foreach($users_id as $user_id) {
+                    $insert_data[] = [
+                        'user_id' => $user_id['id'],
+                        'church_id' => $this->church_id,
+                        'notification_id' => $notifications->id,
+                        'read' => 0,
+                        'created_at' => date('Y-m-d h:i:s', time())
+                    ];
+                }
+                $this->getUserNotificationService()->createUserNotifications($insert_data);
+            endif;
         }
 
         return $response->withJson($this->updateDataBeforeSendToResponse($notifications), StatusCodeInterface::STATUS_CREATED);

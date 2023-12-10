@@ -41,17 +41,21 @@ final class UsersService
     {
         $users = json_decode((string) json_encode($input), false);
 
+        // update some default value
+        $users->status = 1;
+        $users->created_at = date('Y-m-d h:i:s');
+        $users->name = $users->name ?? 'Not Provided';
+
 
 if(property_exists($users, 'device_token')) {
 
 
-    $user =  $this->usersRepository->checkAndGetByToken($users->device_token);
+    $user =  $this->removeDeletedEntry($this->usersRepository->checkAndGetByToken($users->device_token));
    // print_r($user);exit;
     if($user instanceof stdClass) {
         return $user;
     }
 }
-    
         return $this->usersRepository->create($users);
     }
 
