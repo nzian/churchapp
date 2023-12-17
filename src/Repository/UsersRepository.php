@@ -134,8 +134,13 @@ return null;
         $statement->execute();
     }
 
-    public function getDataBySelection(int $church_id, string $columns) : array {
-        $query = 'SELECT ' . $columns . ' FROM `users` WHERE `church_id` = :church_id AND `status` = 1';
+    public function getDataBySelection(int $church_id, string $columns, string $condition = '') : array {
+
+$query = 'SELECT ' . $columns . ' FROM `users` WHERE `church_id` = :church_id';
+        if($condition !== '') {
+            $query .= $condition; 
+        }
+
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('church_id', $church_id);
         $statement->execute();

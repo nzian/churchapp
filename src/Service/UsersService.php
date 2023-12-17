@@ -82,7 +82,10 @@ $user = $this->update($input, $user->id);
     }
 
     public function churchUserDeviceToken(int $church_id, string $columns) : array {
-        return $this->usersRepository->getDataBySelection($church_id, $columns);
+
+// you can filter the data with constant conditions but @todo can be updated with data binding
+return $this->usersRepository->getDataBySelection($church_id, $columns, ' AND `status` = 1 AND `email` !=""');
+
     }
     public function getChurchUserIds(int $church_id, string $columns) : array {
         return $this->usersRepository->getDataBySelection($church_id, $columns);
