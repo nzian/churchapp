@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Exception;
 use App\Service\FireBaseMessagingService;
 use Kreait\Firebase\Messaging\ApnsConfig;
 use Kreait\Firebase\Messaging\CloudMessage;
@@ -52,19 +51,5 @@ trait PushNotification
             'invalid_targets' => $invalidTargets
         ];
 
-    }
-
-    function getIndexedArray($array) {
-        $arrayTemp = array();
-        for ($i=0; $i < count($array); $i++) { 
-            $keys = array_keys($array[$i]);
-            $innerArrayTemp = array();
-            for ($j=0; $j < count($keys); $j++) { 
-
-                $innerArrayTemp[$j] = $array[$i][$keys[$j]];                
-            }
-            array_push($arrayTemp, $innerArrayTemp);
-        }
-        return $arrayTemp;
     }
 }

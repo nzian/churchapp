@@ -88,7 +88,8 @@ return $this->usersRepository->getDataBySelection($church_id, $columns, ' AND `s
 
     }
     public function getChurchUserIds(int $church_id, string $columns) : array {
-        return $this->usersRepository->getDataBySelection($church_id, $columns);
+return $this->usersRepository->getDataBySelection($church_id, $columns, ' AND `status` = 1');
+
     }
 
     public function GetUserByEmail(array $input) {

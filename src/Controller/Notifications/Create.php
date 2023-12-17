@@ -39,7 +39,8 @@ $tokens = [];
 foreach ($church_users_device_tokens as $k => $v) {
     array_push($tokens, $v['device_token']);
 }
-$notifications['push_notification_report'] = $this->sendPushNotification($tokens, $notifications);
+$notifications->push_notification_report = $this->sendPushNotification($tokens, $notifications);
+
 
 
         }
@@ -58,6 +59,7 @@ $notifications['push_notification_report'] = $this->sendPushNotification($tokens
                         'created_at' => date('Y-m-d h:i:s', time())
                     ];
                 }
+
                 $this->getUserNotificationService()->createUserNotifications($insert_data);
             endif;
         }
