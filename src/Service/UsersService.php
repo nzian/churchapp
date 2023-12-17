@@ -52,6 +52,9 @@ if(property_exists($users, 'device_token')) {
 
     $user =  $this->usersRepository->checkAndGetByToken($users->device_token);
    // print_r($user);exit;
+
+$user = $this->update($input, $user->id);
+
     if($user instanceof stdClass) {
         $valid_user =  $this->removeDeletedEntry($user);
         if($valid_user === null && $valid_user instanceof stdClass) {
