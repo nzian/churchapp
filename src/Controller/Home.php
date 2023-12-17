@@ -8,18 +8,23 @@ use App\CustomResponse as Response;
 use App\Service\NotificationsService;
 use App\Service\ChurchesService;
 use App\Service\User_notificationsService;
+use App\Service\UsersService;
 use Pimple\Psr11\Container;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Traits\ConfigData;
 use App\Traits\DataResponse;
+use App\Traits\PushNotification;
+use stdClass;
 
 final class Home
 {
     use ConfigData;
     use DataResponse;
+    use PushNotification;
     private const API_NAME = 'slim4-api-skeleton';
 
     private const API_VERSION = '0.41.0';
+    private $church_id = 1;
 
     private Container $container;
 
@@ -35,6 +40,10 @@ final class Home
 
     protected function getNotificationsService(): NotificationsService {
         return $this->container->get('notifications_service');
+    }
+
+    protected function getUsersService(): UsersService {
+        return $this->container->get('users_service');
     }
 
     protected function getUserNotificationsService(): User_notificationsService {
@@ -93,4 +102,22 @@ final class Home
 
         return $response->withJson($this->updateDataBeforeSendToResponse([]));
     }
+
+function testPushNotification(Request $request, Response $response): Response {
+    $church_users_device_tokens = $this->getUsersService()->churchUserDeviceToken($this->church_id, '`device_token`');
+    $tokens = [];
+    foreach ($church_users_device_tokens as $k => $v){
+        array_push($tokens, $v['device_token']);
+    }
+    $notification = new stdClass();
+    $notification->title = "Notification from script";
+    $notification->description = "This is new app notification system. We are sending notification from script. We will send it automatically";
+    // get all church users and notification object
+    $result = $this->sendPushNotification($tokens, $notification);
+    return $response->withJson($result);
+    
+}
+
+
+
 }

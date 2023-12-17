@@ -4,28 +4,67 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
+use Exception;
+use App\Service\FireBaseMessagingService;
+use Kreait\Firebase\Messaging\ApnsConfig;
+use Kreait\Firebase\Messaging\CloudMessage;
+
 trait PushNotification
 {
-    public function sendPushNotification(array $user_tokens, object $notification): void
+    public function sendPushNotification(array $user_tokens, object $notification): mixed
     {
-        $client = new \Fcm\FcmClient(getenv('FCM_API_KEY'), getenv('FCM_SENDER_ID'));
+        $firebase = new FireBaseMessagingService();
+        $messaging = $firebase->getFirebaseInstance()->createMessaging();
+        $message = CloudMessage::fromArray([
+            'notification' => [
+                'title' => $notification->title,
+                'body' => $notification->description,
+            ]
+        ])->withDefaultSounds(); // Any instance of Kreait\Messaging\Message
+        $report = $messaging->sendMulticast($message, $user_tokens);
+        $success_message = 'Successful sends: '.$report->successes()->count().PHP_EOL;
+        $fail_message = 'Failed sends: '.$report->failures()->count().PHP_EOL;
 
-        $fcm_notification = new \Fcm\Push\Notification();
-        $fcm_notification
-        //->addRecipient($deviceId1)
-        //->addRecipient($deviceGroupID)
-        ->addRecipient($user_tokens)
-        ->setTitle($notification->title)
-        ->setBody($notification->description)
-        ->setColor('#20F037')
-        ->setSound("default")
-        ->setBadge(11);
-        //->addData("key", "value");
+        if ($report->hasFailures()) {
+            foreach ($report->failures()->getItems() as $failure) {
+                $error[] = $failure->error()->getMessage().PHP_EOL;
+            }
+        }
 
-        // Shortcut function:
-        // $notification = $client->pushNotification('The title', 'The body', $deviceId);
+        // The following methods return arrays with registration token strings
+        $successfulTargets = $report->validTokens(); // string[]
 
-        $response = $client->send($fcm_notification);
+        // Unknown tokens are tokens that are valid but not know to the currently
+        // used Firebase project. This can, for example, happen when you are
+        // sending from a project on a staging environment to tokens in a
+        // production environment
+        $unknownTargets = $report->unknownTokens(); // string[]
 
+        // Invalid (=malformed) tokens
+        $invalidTargets = $report->invalidTokens(); // string[]
+
+        return [
+            'success' => $success_message,
+            'failed' => $fail_message,
+            'error' => $error,
+            'successful_targets' => $successfulTargets,
+            'unknown_targets' => $unknownTargets,
+            'invalid_targets' => $invalidTargets
+        ];
+
+    }
+
+    function getIndexedArray($array) {
+        $arrayTemp = array();
+        for ($i=0; $i < count($array); $i++) { 
+            $keys = array_keys($array[$i]);
+            $innerArrayTemp = array();
+            for ($j=0; $j < count($keys); $j++) { 
+
+                $innerArrayTemp[$j] = $array[$i][$keys[$j]];                
+            }
+            array_push($arrayTemp, $innerArrayTemp);
+        }
+        return $arrayTemp;
     }
 }

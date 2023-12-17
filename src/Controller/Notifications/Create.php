@@ -34,7 +34,14 @@ if(!$validation->validate()) {
         // after create you need to send notification to firebase messaging if push notification one
         if($this->config['pushnotification'] === 'on') {
             // get all church users and notification object
-            $this->sendPushNotification($church_users_device_tokens, $notifications);
+
+$tokens = [];
+foreach ($church_users_device_tokens as $k => $v) {
+    array_push($tokens, $v['device_token']);
+}
+$notifications['push_notification_report'] = $this->sendPushNotification($tokens, $notifications);
+
+
         }
         // then create user notification log in user_notification table broadcast on
         if($this->config['broadcastmessaging'] === 'on') {
