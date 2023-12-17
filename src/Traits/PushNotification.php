@@ -21,8 +21,8 @@ trait PushNotification
             ]
         ])->withDefaultSounds(); // Any instance of Kreait\Messaging\Message
         $report = $messaging->sendMulticast($message, $user_tokens);
-        $success_message = 'Successful sends: '.$report->successes()->count().PHP_EOL;
-        $fail_message = 'Failed sends: '.$report->failures()->count().PHP_EOL;
+        $success_message = 'Successful sends: '.$report->successes()->count();
+        $fail_message = 'Failed sends: '.$report->failures()->count();
 
         if ($report->hasFailures()) {
             foreach ($report->failures()->getItems() as $failure) {
