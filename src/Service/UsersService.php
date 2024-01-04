@@ -47,16 +47,16 @@ final class UsersService
         $users->name = $users->name ?? 'Not Provided';
 
 
-if(property_exists($users, 'device_token')) {
+if(property_exists($users, 'device_token') || property_exists($users, 'unique_device_id') || property_exists($users, 'email')) {
 
 
-    $user =  $this->usersRepository->checkAndGetByToken($users->device_token);
-   // print_r($user);exit;
+    $user =  $this->usersRepository->checkExistUser($users);
+    
 
     if($user instanceof stdClass) {
         $user = $this->update($input, $user->id);
         $valid_user =  $this->removeDeletedEntry($user);
-        if($valid_user === null && $valid_user instanceof stdClass) {
+        if($valid_user !== null && $valid_user instanceof stdClass) {
             return $valid_user;
         }
     }

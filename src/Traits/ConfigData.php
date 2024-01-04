@@ -25,6 +25,66 @@ trait ConfigData
         return [];
     }
 
+    public function updateSocialLinkConfig(string $social): void {
+        $config = $this->getConfigData();
+        
+        $updated_data = json_decode($social, true);
+        if(isset($updated_data['x']) && $updated_data['x'] !=='') {
+            $config['x'] = $updated_data['x'];
+           // echo $config['x'];exit;
+        }
+
+        if(isset($updated_data['facebook']) && $updated_data['facebook'] !=='') {
+            $config['facebook'] = $updated_data['facebook'];
+        }
+        if(isset($updated_data['instagram']) && $updated_data['instagram'] !=='') {
+            $config['instagram'] = $updated_data['instagram'];
+        }
+        if(isset($updated_data['youtube']) && $updated_data['youtube'] !=='') {
+            $config['youtube'] = $updated_data['youtube'];
+        }
+        if(isset($updated_data['googlemaps']) && $updated_data['googlemaps'] !=='') {
+            $config['googlemaps'] = $updated_data['googlemaps'];
+        }
+        $result = $this->updateConfigData($config);
+        
+        print_r($result);die();
+    }
+
+    public function getSocialLinkFromConfig() : array {
+        $config = $this->getConfigData();
+        $social = [];
+        if($config['x'] !=='') {
+            $social['x'] = $config['x'];
+        }
+
+        if($config['facebook'] !=='') {
+            $social['facebook'] = $config['facebook'];
+        }
+        if($config['instagram'] !=='') {
+            $social['instagram'] = $config['instagram'];
+        }
+        if($config['youtube'] !=='') {
+            $social['youtube'] = $config['youtube'];
+        }
+        if($config['googlemaps'] !=='') {
+            $social['googlemaps'] = $config['googlemaps'];
+        }
+        return $social;
+    }
+
+    public function updateConfigData(array $data) : array {
+        $file_path = dirname(dirname(dirname(__FILE__))) . getenv('CONFIG_FILE');
+        $encrypt_key_location = dirname(dirname(dirname(__FILE__)))  . getenv('ENCRYPT_KEY_FILE') ?? dirname(dirname(dirname(__FILE__))) . '/key/encrypt.key';
+        if(file_exists($file_path) && file_exists($encrypt_key_location)) {
+            $key = unserialize(file_get_contents($encrypt_key_location));
+            $ciphertext = Crypto::encrypt(json_encode($data), $key);
+            file_put_contents($file_path, $ciphertext);
+            $config = Crypto::decrypt(file_get_contents($file_path), $key);
+            return json_decode($config, true);
+        }
+    }
+
     public function getCfc1ConfigData(): array  {
        return  json_decode('{
             "version": "0.0.1",

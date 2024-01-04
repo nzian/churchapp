@@ -7,7 +7,9 @@ require "vendor/autoload.php";
 // Do this once then store it somehow:
 //$key = Key::createNewRandomKey();
 //file_put_contents('encrypt.key', serialize($key));
-$key = unserialize(file_get_contents('encrypt.key'));
+
+$key = unserialize(file_get_contents('key/encrypt.key'));
+
 //var_dump($key);
 
 $message = file_get_contents('public/data.json');
