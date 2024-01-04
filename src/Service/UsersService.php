@@ -47,7 +47,7 @@ final class UsersService
         $users->name = $users->name ?? 'Not Provided';
 
 
-if(property_exists($users, 'device_token') || property_exists($users, 'unique_device_id') || property_exists($users, 'email')) {
+    if(property_exists($users, 'device_token') || property_exists($users, 'unique_device_id') || property_exists($users, 'email')) {
 
 
     $user =  $this->usersRepository->checkExistUser($users);
