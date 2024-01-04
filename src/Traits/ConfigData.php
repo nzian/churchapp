@@ -48,7 +48,8 @@ trait ConfigData
         }
         $result = $this->updateConfigData($config);
         
-        print_r($result);die();
+//print_r($result);die();
+
     }
 
     public function getSocialLinkFromConfig() : array {
