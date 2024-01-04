@@ -6,9 +6,8 @@
 /nbproject/
 /build/
 /cache/
-/.env
+/.env.enc
 /.scannerwork/
 /.phpunit.result.cache
 /.history/*
-/.env.enc
 /backupenv
