@@ -16,8 +16,8 @@ trait PushNotification
         $messaging = $firebase->getFirebaseInstance()->createMessaging();
         $message = CloudMessage::fromArray([
             'notification' => [
-                'title' => $notification->title,
-                'body' => $notification->description,
+                'title' => "New Message Received",
+                'body' => "",
             ]
         ])->withDefaultSounds(); // Any instance of Kreait\Messaging\Message
         $report = $messaging->sendMulticast($message, $user_tokens);
