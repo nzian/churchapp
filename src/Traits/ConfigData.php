@@ -29,21 +29,21 @@ trait ConfigData
         $config = $this->getConfigData();
         
         $updated_data = json_decode($social, true);
-        if(isset($updated_data['x']) && $updated_data['x'] !=='') {
+        if(isset($updated_data['x'])) {
             $config['x'] = $updated_data['x'];
            // echo $config['x'];exit;
         }
 
-        if(isset($updated_data['facebook']) && $updated_data['facebook'] !=='') {
+        if(isset($updated_data['facebook'])) {
             $config['facebook'] = $updated_data['facebook'];
         }
-        if(isset($updated_data['instagram']) && $updated_data['instagram'] !=='') {
+        if(isset($updated_data['instagram'])) {
             $config['instagram'] = $updated_data['instagram'];
         }
-        if(isset($updated_data['youtube']) && $updated_data['youtube'] !=='') {
+        if(isset($updated_data['youtube'])) {
             $config['youtube'] = $updated_data['youtube'];
         }
-        if(isset($updated_data['googlemaps']) && $updated_data['googlemaps'] !=='') {
+        if(isset($updated_data['googlemaps'])) {
             $config['googlemaps'] = $updated_data['googlemaps'];
         }
         $result = $this->updateConfigData($config);
@@ -55,20 +55,20 @@ trait ConfigData
     public function getSocialLinkFromConfig() : array {
         $config = $this->getConfigData();
         $social = [];
-        if($config['x'] !=='') {
+        if(isset($config['x'])) {
             $social['x'] = $config['x'];
         }
 
-        if($config['facebook'] !=='') {
+        if(isset($config['facebook'])) {
             $social['facebook'] = $config['facebook'];
         }
-        if($config['instagram'] !=='') {
+        if(isset($config['instagram'])) {
             $social['instagram'] = $config['instagram'];
         }
-        if($config['youtube'] !=='') {
+        if(isset($config['youtube'])) {
             $social['youtube'] = $config['youtube'];
         }
-        if($config['googlemaps'] !=='') {
+        if(isset($config['googlemaps'])) {
             $social['googlemaps'] = $config['googlemaps'];
         }
         return $social;
