@@ -48,10 +48,10 @@ return null;
     }
     
     public function checkExistUser(object $user): null|object {
-        $query = 'SELECT * FROM `users` WHERE `device_token` = :device_token OR `email` = :email OR `unique_device_id` = :unique_device_id';
+        $query = 'SELECT * FROM `users` WHERE (`device_token` = :device_token OR `unique_device_id` = :unique_device_id) AND `deleted_at` is NULL  limit 1';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('device_token', $user->device_token);
-        $statement->bindParam('email', $user->email);
+        //$statement->bindParam('email', $user->email);
         $statement->bindParam('unique_device_id', $user->unique_device_id);
         $statement->execute();
         $users = $statement->fetchObject();
@@ -94,7 +94,7 @@ $statement->bindParam('unique_device_id', $users->unique_device_id);
         return $this->checkAndGet((int) $this->getDb()->lastInsertId());
     }
 
-    public function update(object $users, object $data): object
+    public function update(object $users, object $data): null|object
     {
         if (isset($data->name)) {
             $users->name = $data->name;

@@ -64,7 +64,7 @@ final class UsersService
         return $this->usersRepository->create($users);
     }
 
-    public function update(array $input, int $usersId): object
+    public function update(array $input, int $usersId): null|object
     {
         $users = $this->removeDeletedEntry($this->checkAndGet($usersId));
         $data = json_decode((string) json_encode($input), false);
