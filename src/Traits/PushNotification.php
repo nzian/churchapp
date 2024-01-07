@@ -12,12 +12,13 @@ trait PushNotification
 {
     public function sendPushNotification(array $user_tokens, object $notification): mixed
     {
+        $error = [];
         $firebase = new FireBaseMessagingService();
         $messaging = $firebase->getFirebaseInstance()->createMessaging();
         $message = CloudMessage::fromArray([
             'notification' => [
                 'title' => "New Message Received",
-                'body' => "",
+                'body' => " ",
             ]
         ])->withDefaultSounds(); // Any instance of Kreait\Messaging\Message
         $report = $messaging->sendMulticast($message, $user_tokens);
