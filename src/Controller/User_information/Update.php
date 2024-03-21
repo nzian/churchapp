@@ -6,9 +6,11 @@ namespace App\Controller\User_information;
 
 use App\CustomResponse as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use App\Traits\DataResponse;
 
 final class Update extends Base
 {
+    use DataResponse;
     /**
      * @param array<string> $args
      */
@@ -20,6 +22,6 @@ final class Update extends Base
         $input = (array) $request->getParsedBody();
         $user_information = $this->getUser_informationService()->update($input, (int) $args['id']);
 
-        return $response->withJson($user_information);
+        return $response->withJson($this->updateDataBeforeSendToResponse($user_information));
     }
 }

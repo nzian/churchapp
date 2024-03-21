@@ -6,9 +6,11 @@ namespace App\Controller\User_information;
 
 use App\CustomResponse as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use App\Traits\DataResponse;
 
 final class GetOne extends Base
 {
+    use DataResponse;
     /**
      * @param array<string> $args
      */
@@ -19,6 +21,6 @@ final class GetOne extends Base
     ): Response {
         $user_information = $this->getUser_informationService()->getOne((int) $args['id']);
 
-        return $response->withJson($user_information);
+        return $response->withJson($this->updateDataBeforeSendToResponse($user_information));
     }
 }
