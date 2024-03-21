@@ -25,6 +25,26 @@ trait ConfigData
         return [];
     }
 
+    public function getQrCodes($code_text = null) {
+        $configData = $this->getConfigData();
+        if($code_text === null ) {
+            if(array_key_exists('qrcode', $configData)) {
+                return $configData['qrcode'];
+            }
+        }
+        else {
+            if(array_key_exists('qrcode', $configData)) {
+                foreach($configData['qrcode'] as $qrcode) {
+                    if($qrcode['codeText'] == $code_text) {
+                        return $qrcode;
+                    }
+                }
+                return false;
+            }
+            return false;
+        }
+    }
+
     public function getCfc1ConfigData(): array  {
        return  json_decode('{
             "version": "0.0.1",

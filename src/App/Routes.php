@@ -11,6 +11,7 @@ $app->get('/cfc3/data', 'App\Controller\Home:getCfc3JsonData');
 $app->get('/remove-old-notification', 'App\Controller\Home:removeOldNotification');
 
 $app->get('/test-push-notification', 'App\Controller\Home:testPushNotification');
+$app->get('/qrcodes', 'App\Controller\Home:getAllQrCodes');
 
 
 
@@ -59,3 +60,31 @@ $app->post('/notifications', App\Controller\Notifications\Create::class);
 $app->get('/notifications/{id}', App\Controller\Notifications\GetOne::class);
 $app->put('/notifications/{id}', App\Controller\Notifications\Update::class);
 $app->delete('/notifications/{id}', App\Controller\Notifications\Delete::class);
+
+$app->get('/user_attendance', App\Controller\User_attendance\GetAll::class);
+//$app->post('/user_attendance', App\Controller\User_attendance\Create::class);
+$app->post('/checkin/success', App\Controller\User_attendance\Create::class);
+$app->get('/user_attendance/{id}', App\Controller\User_attendance\GetOne::class);
+$app->put('/user_attendance/{id}', App\Controller\User_attendance\Update::class);
+$app->delete('/user_attendance/{id}', App\Controller\User_attendance\Delete::class);
+
+$app->get('/user_information', App\Controller\User_information\GetAll::class);
+$app->post('/user_information', App\Controller\User_information\Create::class);
+$app->post('/submit/guest/info', App\Controller\User_information\SubmitGuest::class);
+$app->get('/user_information/{id}', App\Controller\User_information\GetOne::class);
+$app->put('/user_information/{id}', App\Controller\User_information\Update::class);
+$app->delete('/user_information/{id}', App\Controller\User_information\Delete::class);
+
+$app->get('/province', App\Controller\Province\GetAll::class);
+$app->post('/province', App\Controller\Province\Create::class);
+$app->get('/province/{id}', App\Controller\Province\GetOne::class);
+$app->put('/province/{id}', App\Controller\Province\Update::class);
+$app->delete('/province/{id}', App\Controller\Province\Delete::class);
+
+$app->get('/city', App\Controller\City\GetAll::class);
+$app->post('/city', App\Controller\City\Create::class);
+$app->get('/city/{id}', App\Controller\City\GetOne::class);
+$app->put('/city/{id}', App\Controller\City\Update::class);
+$app->delete('/city/{id}', App\Controller\City\Delete::class);
+
+

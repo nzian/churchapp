@@ -103,20 +103,30 @@ final class Home
         return $response->withJson($this->updateDataBeforeSendToResponse([]));
     }
 
-function testPushNotification(Request $request, Response $response): Response {
-    $church_users_device_tokens = $this->getUsersService()->churchUserDeviceToken($this->church_id, '`device_token`');
-    $tokens = [];
-    foreach ($church_users_device_tokens as $k => $v){
-        array_push($tokens, $v['device_token']);
+    function testPushNotification(Request $request, Response $response): Response {
+        $church_users_device_tokens = $this->getUsersService()->churchUserDeviceToken($this->church_id, '`device_token`');
+        $tokens = [];
+        foreach ($church_users_device_tokens as $k => $v){
+            array_push($tokens, $v['device_token']);
+        }
+        $notification = new stdClass();
+        $notification->title = "Notification from script";
+        $notification->description = "This is new app notification system. We are sending notification from script. We will send it automatically";
+        // get all church users and notification object
+        $result = $this->sendPushNotification($tokens, $notification);
+        return $response->withJson($result);
+        
     }
-    $notification = new stdClass();
-    $notification->title = "Notification from script";
-    $notification->description = "This is new app notification system. We are sending notification from script. We will send it automatically";
-    // get all church users and notification object
-    $result = $this->sendPushNotification($tokens, $notification);
-    return $response->withJson($result);
-    
-}
+
+    public function getAllQrCodes(Request $request, Response $response): Response {
+        $configs = $this->getConfigData();
+
+        if(array_key_exists('qrcode', $configs)) {
+            return $response->withJson($this->updateDataBeforeSendToResponse($configs['qrcode']));
+        }
+        return $response->withJson($this->updateDataBeforeSendToResponse([]));
+    }
+
 
 
 

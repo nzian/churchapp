@@ -22,3 +22,19 @@ $container['pastors_repository'] = static function (Pimple\Container $container)
 $container['notifications_repository'] = static function (Pimple\Container $container): App\Repository\NotificationsRepository {
     return new App\Repository\NotificationsRepository($container['db']);
 };
+
+$container['user_attendance_repository'] = static function (Pimple\Container $container): App\Repository\User_attendanceRepository {
+    return new App\Repository\User_attendanceRepository($container['db']);
+};
+
+$container['user_information_repository'] = static function (Pimple\Container $container): App\Repository\User_informationRepository {
+    return new App\Repository\User_informationRepository($container['db']);
+};
+
+$container['province_repository'] = static function (Pimple\Container $container): App\Repository\ProvinceRepository {
+    return new App\Repository\ProvinceRepository($container['db']);
+};
+
+$container['city_repository'] = static function (Pimple\Container $container): App\Repository\CityRepository {
+    return new App\Repository\CityRepository($container['db']);
+};
