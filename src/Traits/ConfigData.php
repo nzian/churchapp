@@ -11,7 +11,7 @@ trait ConfigData
     {
 
         $file_path = dirname(dirname(dirname(__FILE__))) . getenv('CONFIG_FILE');
-        $encrypt_key_location = dirname(dirname(dirname(__FILE__)))  . getenv('ENCRYPT_KEY_FILE') ?? dirname(dirname(dirname(__FILE__))) . '/encrypt.key';
+        $encrypt_key_location = dirname(dirname(dirname(__FILE__)))  . getenv('ENCRYPT_KEY_FILE') ?? dirname(dirname(dirname(__FILE__))) . '/key/encrypt.key';
         //echo $file_path;
         //echo $encrypt_key_location;
         //die();
