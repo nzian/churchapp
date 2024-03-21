@@ -6,10 +6,14 @@ namespace App\Service;
 
 use App\Repository\PastorsRepository;
 use App\Traits\CheckDeletedEntry;
+use App\Traits\ConfigData;
+
 
 final class PastorsService
 {
-    use CheckDeletedEntry;
+use CheckDeletedEntry;
+use ConfigData;
+
     private PastorsRepository $pastorsRepository;
 
     public function __construct(PastorsRepository $pastorsRepository)
@@ -24,6 +28,7 @@ final class PastorsService
 
     public function checkAndGetByEmail(string $email) {
         return $this->pastorsRepository->checkAndGetByEmail($email);
+
     }
 
     public function getAll(): array
@@ -48,6 +53,10 @@ final class PastorsService
         $pastors = $this->removeDeletedEntry($this->checkAndGet($pastorsId));
         $data = json_decode((string) json_encode($input), false);
         if($pastors !== null) {
+            if(array_key_exists('social_media_link', $input)) {
+                //print_r($input['social_media_link']);die();
+                $this->updateSocialLinkConfig($input['social_media_link']);
+            }
             return $this->pastorsRepository->update($pastors, $data);
         }
         return null;
@@ -60,6 +69,14 @@ final class PastorsService
     }
 
     public function getPastorByEmail(array $input) {
-        return $this->removeDeletedEntry($this->checkAndGetByEmail($input['email']));
+        $pastor = $this->removeDeletedEntry($this->checkAndGetByEmail($input['email']));
+        if($pastor) {
+            $social = $this->getSocialLinkFromConfig();
+            if(is_array($social) && count($social) > 0) {
+                $pastor->social_media_link = json_encode($social);
+                return $pastor;
+            }
+            return $pastor;
+        }
     }
 }

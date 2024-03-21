@@ -5,19 +5,20 @@ declare(strict_types=1);
 namespace App\Traits;
 
 use App\Service\FireBaseMessagingService;
-use Kreait\Firebase\Messaging\ApnsConfig;
+
 use Kreait\Firebase\Messaging\CloudMessage;
 
 trait PushNotification
 {
     public function sendPushNotification(array $user_tokens, object $notification): mixed
     {
+        $error = [];
         $firebase = new FireBaseMessagingService();
         $messaging = $firebase->getFirebaseInstance()->createMessaging();
         $message = CloudMessage::fromArray([
             'notification' => [
-                'title' => $notification->title,
-                'body' => $notification->description,
+                'title' => "New Message Received",
+                'body' => " ",
             ]
         ])->withDefaultSounds(); // Any instance of Kreait\Messaging\Message
         $report = $messaging->sendMulticast($message, $user_tokens);

@@ -1,7 +1,7 @@
 DB_HOST='localhost'
 DB_NAME='nzianxyz_church'
 DB_USER='nzianxyz_church'
-DB_PASS='?*YNfE34+SE)'
+DB_PASS='B3vqQ-wVpZ-$'
 DB_PORT='3306'
 CONFIG_FILE='/public/data.enc'
 FCM_API_KEY='AAAAcNhEIOw:APA91bEiL4tCTIyYcnJHNXoCQeF8yQksfM_IuZSf0zHEJGZv8U6L6lgzu8c0v7zelhb9aCBcAU9UUtFJTIQnx7G5rnqiv2wqbiNxy3fUx5ashZNl3i6Db687ZaAJToc7DA8Am73_FRTN'
@@ -9,7 +9,7 @@ FCM_SENDER_ID='484664680684'
 API_USER='churchapi'
 API_PASSWORD='kljdklHFR76sTRAKasdkljdljasdh#$@3487234239'
 API_SECURE=true
-ENCRYPT_KEY_FILE='/encrypt.key'
+ENCRYPT_KEY_FILE='/key/encrypt.key'
 
 DISPLAY_ERROR_DETAILS=true
 SLIM_BASE_PATH=''

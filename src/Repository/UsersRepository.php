@@ -45,7 +45,22 @@ return null;
         }
 
         return $users;
-    }    
+    }
+    
+    public function checkExistUser(object $user): null|object {
+        $query = 'SELECT * FROM `users` WHERE (`device_token` = :device_token OR `unique_device_id` = :unique_device_id) AND `deleted_at` is NULL  limit 1';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('device_token', $user->device_token);
+        //$statement->bindParam('email', $user->email);
+        $statement->bindParam('unique_device_id', $user->unique_device_id);
+        $statement->execute();
+        $users = $statement->fetchObject();
+        if (!$users) {
+            return null;
+        }
+
+        return $users;
+    }
 
     public function getAll(): array
     {
@@ -58,11 +73,14 @@ return null;
 
     public function create(object $users): object
     {
-        $query = 'INSERT INTO `users` (`id`, `name`, `device_token`, `email`, `phone`, `status`, `church_id`, `created_at`, `updated_at`, `deleted_at`) VALUES (:id, :name, :device_token, :email, :phone, :status, :church_id, :created_at, :updated_at, :deleted_at)';
+$query = 'INSERT INTO `users` (`id`, `name`, `device_token`, `unique_device_id`, `email`, `phone`, `status`, `church_id`, `created_at`, `updated_at`, `deleted_at`) VALUES (:id, :name, :device_token, :unique_device_id, :email, :phone, :status, :church_id, :created_at, :updated_at, :deleted_at)';
+
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('id', $users->id);
         $statement->bindParam('name', $users->name);
         $statement->bindParam('device_token', $users->device_token);
+$statement->bindParam('unique_device_id', $users->unique_device_id);
+
         $statement->bindParam('email', $users->email);
         $statement->bindParam('phone', $users->phone);
         $statement->bindParam('status', $users->status);
@@ -76,7 +94,7 @@ return null;
         return $this->checkAndGet((int) $this->getDb()->lastInsertId());
     }
 
-    public function update(object $users, object $data): object
+    public function update(object $users, object $data): null|object
     {
         if (isset($data->name)) {
             $users->name = $data->name;
@@ -84,6 +102,11 @@ return null;
         if (isset($data->device_token)) {
             $users->device_token = $data->device_token;
         }
+
+if (isset($data->unique_device_id)) {
+    $users->unique_device_id = $data->unique_device_id;
+}
+
         if (isset($data->email)) {
             $users->email = $data->email;
         }
@@ -106,11 +129,14 @@ return null;
             $users->deleted_at = $data->deleted_at;
         }
 
-        $query = 'UPDATE `users` SET `name` = :name, `device_token` = :device_token, `email` = :email, `phone` = :phone, `status` = :status, `church_id` = :church_id, `created_at` = :created_at, `updated_at` = :updated_at, `deleted_at` = :deleted_at WHERE `id` = :id';
+$query = 'UPDATE `users` SET `name` = :name, `device_token` = :device_token, `unique_device_id` = :unique_device_id, `email` = :email, `phone` = :phone, `status` = :status, `church_id` = :church_id, `created_at` = :created_at, `updated_at` = :updated_at, `deleted_at` = :deleted_at WHERE `id` = :id';
+
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('id', $users->id);
         $statement->bindParam('name', $users->name);
         $statement->bindParam('device_token', $users->device_token);
+$statement->bindParam('unique_device_id', $users->unique_device_id);
+
         $statement->bindParam('email', $users->email);
         $statement->bindParam('phone', $users->phone);
         $statement->bindParam('status', $users->status);

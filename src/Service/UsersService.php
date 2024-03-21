@@ -47,16 +47,16 @@ final class UsersService
         $users->name = $users->name ?? 'Not Provided';
 
 
-if(property_exists($users, 'device_token')) {
+    if(property_exists($users, 'device_token') || property_exists($users, 'unique_device_id') || property_exists($users, 'email')) {
 
 
-    $user =  $this->usersRepository->checkAndGetByToken($users->device_token);
-   // print_r($user);exit;
+    $user =  $this->usersRepository->checkExistUser($users);
+    
 
     if($user instanceof stdClass) {
         $user = $this->update($input, $user->id);
         $valid_user =  $this->removeDeletedEntry($user);
-        if($valid_user === null && $valid_user instanceof stdClass) {
+        if($valid_user !== null && $valid_user instanceof stdClass) {
             return $valid_user;
         }
     }
@@ -64,7 +64,7 @@ if(property_exists($users, 'device_token')) {
         return $this->usersRepository->create($users);
     }
 
-    public function update(array $input, int $usersId): object
+    public function update(array $input, int $usersId): null|object
     {
         $users = $this->removeDeletedEntry($this->checkAndGet($usersId));
         $data = json_decode((string) json_encode($input), false);
@@ -83,7 +83,7 @@ if(property_exists($users, 'device_token')) {
     public function churchUserDeviceToken(int $church_id, string $columns) : array {
 
 // you can filter the data with constant conditions but @todo can be updated with data binding
-return $this->usersRepository->getDataBySelection($church_id, $columns, ' AND `status` = 1 AND `email` !=""');
+return $this->usersRepository->getDataBySelection($church_id, $columns, ' AND `status` = 1');
 
     }
     public function getChurchUserIds(int $church_id, string $columns) : array {
