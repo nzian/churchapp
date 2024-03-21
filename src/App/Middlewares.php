@@ -13,6 +13,8 @@ return static function (App $app, Closure $customErrorHandler): void {
         $_SERVER['DISPLAY_ERROR_DETAILS'] ?? false,
         FILTER_VALIDATE_BOOLEAN
     );
+//echo  getenv('DB_PASS');
+//echo  '---' . getenv('DB_PORT');die();
 $app->add(new \Tuupola\Middleware\HttpBasicAuthentication([
     "secure" => getenv('API_SECURE'),
     "relaxed" => ["localhost", "devng.churchapp","127.0.0.1"],

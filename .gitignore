@@ -7,8 +7,6 @@
 /build/
 /cache/
 .env
-
 /.scannerwork/
 /.phpunit.result.cache
 /.history/*
-/backupenv
