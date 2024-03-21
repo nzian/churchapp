@@ -10,7 +10,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Traits\DataResponse;
 use Valitron\Validator;
 
-
 final class Create extends Base
 {
     use DataResponse;

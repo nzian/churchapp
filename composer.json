@@ -30,6 +30,7 @@
     "lulco/phoenix": "^0.13.0",
     "monolog/monolog": "^3.5",
     "pimple/pimple": "^3.2",
+    "rakit/validation": "^1.4",
     "slim/psr7": "^1.4.0",
     "slim/slim": "^4.5",
     "symfony/cache": "^6.4",

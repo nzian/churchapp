@@ -25,6 +25,27 @@ trait ConfigData
         return [];
     }
 
+
+    public function getQrCodes($code_text = null) {
+        $configData = $this->getConfigData();
+        if($code_text === null ) {
+            if(array_key_exists('qrcode', $configData)) {
+                return $configData['qrcode'];
+            }
+        }
+        else {
+            if(array_key_exists('qrcode', $configData)) {
+                foreach($configData['qrcode'] as $qrcode) {
+                    if($qrcode['codeText'] == $code_text) {
+                        return $qrcode;
+                    }
+                }
+                return false;
+            }
+            return false;
+        }
+    }
+
     public function updateSocialLinkConfig(string $social): void {
         $config = $this->getConfigData();
         
@@ -83,6 +104,7 @@ trait ConfigData
             file_put_contents($file_path, $ciphertext);
             $config = Crypto::decrypt(file_get_contents($file_path), $key);
             return json_decode($config, true);
+
         }
     }
 

@@ -11,11 +11,90 @@
   "pushnotification": "on",
   "showcalendar": "on",
   "broadcastmessaging": "on",
+  "attendanceCheckIn": "on",
+  "userCanViewInfo": "on",
+  "adminMemberEnabled": "on",
   "messaging": "on",
   "showsocialmedia": "on",
   "facebook": "https://facebook.com/devnzian",
   "instagram": "https://instagram.com/devnzian",
   "youtube": "https://youtube.com/@devnzian",
   "x": "https://twitter.com/devnzian",
-  "googlemaps": "https://www.google.com/maps/place/Christian+Family+Church+International/@-26.1336799,28.2643593,17z/data=!3m1!4b1!4m6!3m5!1s0x1e9515c6bc53aa1f:0x1e7a93328a02e1ff!8m2!3d-26.1336848!4d28.2692302!16s%2Fg%2F1hd_dhjqp?entry=ttu"
+  "googlemaps": "https://www.google.com/maps/place/Christian+Family+Church+International/@-26.1336799,28.2643593,17z/data=!3m1!4b1!4m6!3m5!1s0x1e9515c6bc53aa1f:0x1e7a93328a02e1ff!8m2!3d-26.1336848!4d28.2692302!16s%2Fg%2F1hd_dhjqp?entry=ttu",
+  "qrcode" : [
+    {
+      "codeText": "125623",
+      "qrcode" : "https://churchapp.nzian.xyz/assets/barcode/code1.png"
+    },
+    {
+      "codeText": "892345",
+      "qrcode" : "https://churchapp.nzian.xyz/assets/barcode/code2.png"
+    },
+    {
+      "codeText": "143295",
+      "qrcode" : "https://churchapp.nzian.xyz/assets/barcode/code3.png"
+    },
+    {
+      "codeText": "212067",
+      "qrcode" : "https://churchapp.nzian.xyz/assets/barcode/code4.png"
+    },
+    {
+      "codeText": "983411",
+      "qrcode" : "https://churchapp.nzian.xyz/assets/barcode/code5.png"
+    },
+    {
+      "codeText": "234178",
+      "qrcode" : "https://churchapp.nzian.xyz/assets/barcode/code6.png"
+    },
+    {
+      "codeText": "225690",
+      "qrcode" : "https://churchapp.nzian.xyz/assets/barcode/code7.png"
+    },
+    {
+      "codeText": "945632",
+      "qrcode" : "https://churchapp.nzian.xyz/assets/barcode/code8.png"
+    },
+    {
+      "codeText": "583210",
+      "qrcode" : "https://churchapp.nzian.xyz/assets/barcode/code9.png"
+    },
+    {
+      "codeText": "674123",
+      "qrcode" : "https://churchapp.nzian.xyz/assets/barcode/code10.png"
+    }
+  ],
+  "adminMemner":[
+    {
+      "name": "admin1",
+      "email": "admin1@gmail.com",
+      "permission":
+        {
+          "sendNotification" : "on",
+          "check-inQRCodes" : "on",
+          "searchMember" : "on",
+          "addMember" : "on",
+          "editMember" : "on",
+          "resetPasswords" : "on",
+          "deleteMembers" : "on",
+          "searchAdvancedMemberInformation" : "on",
+          "exportData" : "on"
+        }
+    },
+    {
+      "name": "admin2",
+      "email": "admin2@gmail.com",
+      "permission":
+        {
+          "sendNotification" : "on",
+          "check-inQRCodes" : "on",
+          "searchMember" : "on",
+          "addMember" : "on",
+          "editMember" : "on",
+          "resetPasswords" : "on",
+          "deleteMembers" : "on",
+          "searchAdvancedMemberInformation" : "on",
+          "exportData" : "on"
+        }
+    }
+  ]
 }  

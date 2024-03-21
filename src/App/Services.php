@@ -22,3 +22,19 @@ $container['pastors_service'] = static function (Pimple\Container $container): A
 $container['notifications_service'] = static function (Pimple\Container $container): App\Service\NotificationsService {
     return new App\Service\NotificationsService($container['notifications_repository']);
 };
+
+$container['user_attendance_service'] = static function (Pimple\Container $container): App\Service\User_attendanceService {
+    return new App\Service\User_attendanceService($container['user_attendance_repository']);
+};
+
+$container['user_information_service'] = static function (Pimple\Container $container): App\Service\User_informationService {
+    return new App\Service\User_informationService($container['user_information_repository']);
+};
+
+$container['province_service'] = static function (Pimple\Container $container): App\Service\ProvinceService {
+    return new App\Service\ProvinceService($container['province_repository']);
+};
+
+$container['city_service'] = static function (Pimple\Container $container): App\Service\CityService {
+    return new App\Service\CityService($container['city_repository']);
+};
