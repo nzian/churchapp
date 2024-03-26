@@ -28,7 +28,7 @@ $container['user_attendance_service'] = static function (Pimple\Container $conta
 };
 
 $container['user_information_service'] = static function (Pimple\Container $container): App\Service\User_informationService {
-    return new App\Service\User_informationService($container['user_information_repository']);
+    return new App\Service\User_informationService($container['user_information_repository'], $container['users_repository']);
 };
 
 $container['province_service'] = static function (Pimple\Container $container): App\Service\ProvinceService {

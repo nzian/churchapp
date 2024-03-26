@@ -70,10 +70,13 @@ $app->delete('/user_attendance/{id}', App\Controller\User_attendance\Delete::cla
 
 $app->get('/user_information', App\Controller\User_information\GetAll::class);
 $app->post('/user_information', App\Controller\User_information\Create::class);
+$app->post('/member-login', App\Controller\User_information\MemberLogin::class);
 $app->post('/submit/guest/info', App\Controller\User_information\SubmitGuest::class);
 $app->get('/user_information/{id}', App\Controller\User_information\GetOne::class);
 $app->put('/user_information/{id}', App\Controller\User_information\Update::class);
 $app->delete('/user_information/{id}', App\Controller\User_information\Delete::class);
+$app->get('/member-info/{user_id}', App\Controller\User_information\MemberInformation::class);
+$app->get('/member-search', App\Controller\User_information\MemberSearch::class);
 
 $app->get('/province', App\Controller\Province\GetAll::class);
 $app->post('/province', App\Controller\Province\Create::class);

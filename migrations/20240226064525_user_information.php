@@ -23,6 +23,10 @@ use Phoenix\Migration\AbstractMigration;
 - vital_status (Alive, Deceased) nullable but for member its must
 - membership_number  nullable but for memeber its must
 - password nullable but for member its must
+- gender
+- age
+- created_by
+- updated_by
 - created_at
 - updated_at
 - deleted_at

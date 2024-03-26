@@ -5,15 +5,20 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Repository\User_informationRepository;
+use App\Repository\UsersRepository;
 use App\Traits\Membership;
+use stdClass;
+
 final class User_informationService
 {
     use Membership;
     private User_informationRepository $user_informationRepository;
+    private UsersRepository $user_repository;
 
-    public function __construct(User_informationRepository $user_informationRepository)
+    public function __construct(User_informationRepository $user_informationRepository, UsersRepository $usersRepository)
     {
         $this->user_informationRepository = $user_informationRepository;
+        $this->user_repository = $usersRepository;
     }
 
     public function checkAndGet(int $user_informationId): object
@@ -68,5 +73,31 @@ final class User_informationService
 
     public function existMembershipNumber($membership_number) : bool {
         return $this->user_informationRepository->existMembershipNumber($membership_number);
+    }
+
+    public function getMemberByUserId(int $user_id) : object {
+        if($this->user_repository->getUserByid($user_id)) :
+            return $this->user_informationRepository->getMemberByUserId($user_id);
+        endif;
+        return (object)[];
+    }
+
+    public function checkMemberLogin(array $input) : bool|object {
+        $user_information = json_decode((string) json_encode($input), false);
+        if($this->user_repository->getUserByid((int)$user_information->user_id)) :
+            return $this->user_informationRepository->getMemberByUserPassword($user_information);
+        elseif($user_info = $this->user_informationRepository->getMemnerByOnlyPassword($user_information)):
+            $data = new stdClass;
+            $data->user_id = $user_information->user_id;
+            $this->user_informationRepository->update($user_info, $data);
+            $user_info->user_id = $user_information->user_id;
+            return $user_info;
+        endif;
+        return (object)[];
+    }
+
+    public function searchMember(array $input) : bool|array {
+        $search_data = json_decode((string) json_encode($input), false);
+        return $this->user_informationRepository->searchMember($search_data);
     }
 }
