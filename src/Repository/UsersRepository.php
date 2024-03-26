@@ -185,4 +185,16 @@ $query = 'SELECT ' . $columns . ' FROM `users` WHERE `church_id` = :church_id';
 
         return $users;
     }
+
+    public function getUserByid(int $user_id) : bool {
+        $query = 'SELECT * FROM `users` WHERE `id` = :user_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('user_id', $user_id);
+        $statement->execute();
+        $users = $statement->fetchObject();
+        if (!$users) {
+           return false;
+        }
+        return true;
+    }
 }
