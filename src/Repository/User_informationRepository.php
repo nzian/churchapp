@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use Exception;
+
 final class User_informationRepository
 {
     private \PDO $database;
@@ -243,11 +245,10 @@ final class User_informationRepository
     }
 
     public function getMemberByUserPassword(object $user_info): bool|object {
-        $query = 'SELECT * FROM `user_information` WHERE `user_id` = :user_id AND `password` = :password AND `user_type` = :user_type' ;
+        $query = 'SELECT * FROM `user_information` WHERE `user_id` = :user_id AND `password` = :password AND `user_type` = "member"' ;
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('user_id', $user_info->user_id);
         $statement->bindParam('password', $user_info->password);
-        $statement->bindParam('user_type', 'member');
         $statement->execute();
         $user_information = $statement->fetchObject();
 
@@ -264,116 +265,27 @@ final class User_informationRepository
     }
 
     public function searchMember(object $search_input) : bool|array {
-        $query = 'SELECT * FROM `user_information` WHERE `user_type` = :user_type' ;
-        if($search_input->first_name) :
-            $query .= ' OR WHERE `first_name` like "% :first_name %"';
-        endif;
-        if($search_input->last_name) :
-                $query .= ' OR WHERE `last_name` like "% :last_name %"';
-        endif;
-        if($search_input->passport) :
-            $query .= ' OR WHERE `passport` like "% :passport %"';
-        endif;
-        if($search_input->telephone) :
-           
-            $query .= ' OR WHERE `telephone` like "% :telephone %"';
-        endif;
+        $query = 'SELECT * FROM `user_information` WHERE `user_type` = "member" AND ( `first_name` LIKE :first_name OR `last_name` LIKE :last_name OR `passport` LIKE :passport OR `telephone` LIKE :telephone OR `membership_number` LIKE :membership_number OR `dateofbirth` LIKE :dateofbirth)';
+        //print_r($search_input);die();
+        //"AND ( `first_name` LIKE :frist_name OR `last_name` LIKE :last_name OR `passport` LIKE :passport OR `telephone` LIKE :telephone OR `membership_number` LIKE :membership OR `dateofbirth` LIKE :dateofbirth)"
+        $data = "%" . $search_input->search . "%";
+        //echo $data; die();
+        try {
+            $statement = $this->getDb()->prepare($query);     
+            $statement->bindParam('first_name', $data);
+            $statement->bindParam('last_name', $data);
+            $statement->bindParam('passport', $data);
+            $statement->bindParam('telephone', $data);
+            $statement->bindParam('membership_number', $data);
+            $statement->bindParam('dateofbirth', $data);
+            //echo $statement->queryString;die();
+            $statement->execute();
 
-        if($search_input->city) :
-           
-             $query .= ' OR WHERE `city` like "% :city %"';
+            return (array) $statement->fetchAll();
+        }
+        catch(Exception $e) {
+            print_r($e);
+        }
         
-        endif;
-
-        if($search_input->province) :
-            
-            $query .= ' OR WHERE `province` like "% :province %"';
-          
-        endif;
-
-        if($search_input->suburb) :
-           
-            $query .= ' OR WHERE `suburb` like "% :suburb %"';
-
-        endif;
-        if($search_input->area_code) :
-           
-            $query .= ' OR WHERE `area_code` like "% :area_code %"';
-
-        endif;
-
-        if($search_input->race) :
-            
-            $query .= ' OR WHERE `race` like "% :race %"';
-
-        endif;
-        if($search_input->merital_status) :
-           
-            $query .= ' OR WHERE `merital_status` like "% :merital_status %"';
-            
-        endif;
-        if($search_input->vital_status) :
-           
-            $query .= ' OR WHERE `vital_status` like "% :vital_status %"';
-         
-        endif;
-        if($search_input->membership_number) :
-           
-            $query .= ' OR WHERE `membership_number` like "% :membership_number %"';
-        
-        endif;
-        if($search_input->dateofbirth) :
-            
-            $query .= ' OR WHERE `dateofbirth` like "% :dateofbirth %"';
-          
-        endif;
-
-        $statement = $this->getDb()->prepare($query);
-        $statement->bindParam('user_type', 'member');
-        if($search_input->first_name):
-            $statement->bindParam('first_name', $search_input->first_name);
-        endif;
-        if($search_input->last_name):
-            $statement->bindParam('last_name', $search_input->last_name);
-        endif;
-        if($search_input->passport):
-            $statement->bindParam('passport', $search_input->passport);
-        endif;
-        if($search_input->telephone):
-            $statement->bindParam('telephone', $search_input->telephone);
-        endif;
-        if($search_input->street):
-            $statement->bindParam('street', $search_input->street);
-        endif;
-        if($search_input->suburb):
-            $statement->bindParam('suburb', $search_input->suburb);
-        endif;
-        if($search_input->city):
-            $statement->bindParam('city', $search_input->city);
-        endif;
-        if($search_input->province):
-            $statement->bindParam('province', $search_input->province);
-        endif;
-        if($search_input->area_code):
-            $statement->bindParam('area_code', $search_input->area_code);
-        endif;
-        if($search_input->race):
-            $statement->bindParam('race', $search_input->race);
-        endif;
-        if($search_input->marital_status):
-            $statement->bindParam('marital_status', $search_input->marital_status);
-        endif;
-        if($search_input->vital_status):
-            $statement->bindParam('vital_status', $search_input->vital_status);
-        endif;
-        if($search_input->membership_number):
-            $statement->bindParam('membership_number', $search_input->membership_number);
-        endif;
-        if($search_input->dateofbirth):
-            $statement->bindParam('dateofbirth', $search_input->dateofbirth);
-        endif;
-        $statement->execute();
-
-        return (array) $statement->fetchAll();
     }
 }

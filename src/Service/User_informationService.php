@@ -98,6 +98,8 @@ final class User_informationService
 
     public function searchMember(array $input) : bool|array {
         $search_data = json_decode((string) json_encode($input), false);
-        return $this->user_informationRepository->searchMember($search_data);
+        if(!empty($search_data->search))
+            return $this->user_informationRepository->searchMember($search_data);
+        return [];
     }
 }
