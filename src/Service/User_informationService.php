@@ -7,11 +7,13 @@ namespace App\Service;
 use App\Repository\User_informationRepository;
 use App\Repository\UsersRepository;
 use App\Traits\Membership;
+use App\Traits\CheckDeletedEntry;
 use stdClass;
 
 final class User_informationService
 {
-    use Membership;
+    use Membership, CheckDeletedEntry;
+
     private User_informationRepository $user_informationRepository;
     private UsersRepository $user_repository;
 
@@ -28,7 +30,11 @@ final class User_informationService
 
     public function getAll(): array
     {
-        return $this->user_informationRepository->getAll();
+        return $this->removeDeletedEntries($this->user_informationRepository->getAll());
+    }
+
+    public function getAllMember(): array {
+        return $this->removeDeletedEntries($this->user_informationRepository->getAllMember());
     }
 
     public function getOne(int $user_informationId): object
@@ -41,10 +47,15 @@ final class User_informationService
         $user_information = json_decode((string) json_encode($input), false);
         // before store in database add membership and created_at and updated_at
         $member_number = $this->generateMembershipNumber();
+        $age = 0;
+        if($user_information->dateofbirth):
+            $age = $this->calculateAge((string)$user_information->dateofbirth);
+        endif;
         while($this->user_informationRepository->existMembershipNumber($member_number)) {
             $member_number = $this->generateMembershipNumber();
         }
         $user_information->membership_number = $member_number;
+        $user_information->age = $age;
         $user_information->created_at = date('Y-m-d h:i:s');
         $user_information->updated_at = date('Y-m-d h:i:s');
         return $this->user_informationRepository->create($user_information);
@@ -61,7 +72,12 @@ final class User_informationService
     {
         $user_information = $this->checkAndGet($user_informationId);
         $data = json_decode((string) json_encode($input), false);
+        $age = 0;
+        if($user_information->dateofbirth):
+            $age = $this->calculateAge((string)$user_information->dateofbirth);
+        endif;
         $data->updated_at = date('Y-m-d h:i:s');
+        $data->age = $age;
         return $this->user_informationRepository->update($user_information, $data);
     }
 
@@ -99,7 +115,23 @@ final class User_informationService
     public function searchMember(array $input) : bool|array {
         $search_data = json_decode((string) json_encode($input), false);
         if(!empty($search_data->search))
-            return $this->user_informationRepository->searchMember($search_data);
+            return $this->removeDeletedEntries($this->user_informationRepository->searchMember($search_data));
         return [];
+    }
+
+    public function searchMemberWithCriteria(array $input) : bool|array
+    {
+        $search_criteria = json_decode((string) json_encode($input), false);
+        if(!empty($search_criteria))
+            return $this->removeDeletedEntries($this->user_informationRepository->searchMemberWithCriteria($search_criteria));
+        return [];
+    }
+
+    private function calculateAge(string $dateofbirth): int {
+        $result = 0;
+        if($dateofbirth != '') {
+            $result = (date('Y') - date('Y',strtotime($dateofbirth)));
+        }
+        return $result;
     }
 }

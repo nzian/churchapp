@@ -77,6 +77,8 @@ $app->put('/user_information/{id}', App\Controller\User_information\Update::clas
 $app->delete('/user_information/{id}', App\Controller\User_information\Delete::class);
 $app->get('/member-info/{user_id}', App\Controller\User_information\MemberInformation::class);
 $app->post('/member-search', App\Controller\User_information\MemberSearch::class);
+$app->post('/member-search-criteria', App\Controller\User_information\MemberSearchCriteria::class);
+$app->get('/allmember', App\Controller\User_information\GetAllMember::class);
 
 $app->get('/province', App\Controller\Province\GetAll::class);
 $app->post('/province', App\Controller\Province\Create::class);

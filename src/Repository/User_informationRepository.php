@@ -55,6 +55,15 @@ final class User_informationRepository
         return (array) $statement->fetchAll();
     }
 
+    public function getAllMember(): array
+    {
+        $query = 'SELECT * FROM `user_information` WHERE `user_type` = "member" ORDER BY `first_name`';
+        $statement = $this->getDb()->prepare($query);
+        $statement->execute();
+
+        return (array) $statement->fetchAll();
+    }
+
     public function create(object $user_information): object
     {
         $query = 'INSERT INTO `user_information` (`id`, `user_id`, `church_id`, `user_type`, `first_name`, `last_name`, `passport`, `telephone`, `street`, `apartment`, `suburb`, `city`, `province`, `area_code`, `race`, `marital_status`, `vital_status`, `membership_number`, `password`, `dateofbirth`, `created_at`, `updated_at`, `deleted_at`) VALUES (:id, :user_id, :church_id, :user_type, :first_name, :last_name, :passport, :telephone, :street, :apartment, :suburb, :city, :province, :area_code, :race, :marital_status, :vital_status, :membership_number, :password, :dateofbirth, :created_at, :updated_at, :deleted_at)';
@@ -90,7 +99,7 @@ final class User_informationRepository
 
     public function addGuest(object $user_information): object
     {
-        $query = 'INSERT INTO `user_information` (`id`, `user_id`, `church_id`, `user_type`, `first_name`, `last_name`, `passport`, `telephone`, `street`, `apartment`, `suburb`, `city`, `province`, `area_code`, `race`, `marital_status`, `vital_status`, `membership_number`, `password`, `dateofbirth`, `created_at`, `updated_at`, `deleted_at`) VALUES (:id, :user_id, :church_id, :user_type, :first_name, :last_name, :passport, :telephone, :street, :apartment, :suburb, :city, :province, :area_code, :race, :marital_status, :vital_status, :membership_number, :password, :dateofbirth, :created_at, :updated_at, :deleted_at)';
+        $query = 'INSERT INTO `user_information` (`id`, `user_id`, `church_id`, `user_type`, `first_name`, `last_name`, `passport`, `telephone`, `street`, `apartment`, `suburb`, `city`, `province`, `area_code`, `race`, `marital_status`, `vital_status`, `membership_number`, `password`, `dateofbirth`, `created_at`, `updated_at`, `deleted_at`) VALUES (:id, :user_id, :church_id, :user_type, :first_name, :last_name, :passport, :telephone, :street, :apartment, :suburb, :city, :province, :area_code, :race, :marital_status, :vital_status, :membership_number, :password, :dateofbirth, :age,  :created_at, :updated_at, :deleted_at)';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('id', $user_information->id);
         $statement->bindParam('user_id', $user_information->user_id);
@@ -112,6 +121,7 @@ final class User_informationRepository
         $statement->bindParam('membership_number', $user_information->membership_number);
         $statement->bindParam('password', $user_information->password);
         $statement->bindParam('dateofbirth', $user_information->dateofbirth);
+        $statement->bindParam('age', $user_information->age);
         $statement->bindParam('created_at', $user_information->created_at);
         $statement->bindParam('updated_at', $user_information->updated_at);
         $statement->bindParam('deleted_at', $user_information->deleted_at);
@@ -180,6 +190,9 @@ final class User_informationRepository
         if (isset($data->dateofbirth)) {
             $user_information->dateofbirth = $data->dateofbirth;
         }
+        if (isset($data->age)) {
+            $user_information->age = $data->age;
+        }
         if (isset($data->created_at)) {
             $user_information->created_at = $data->created_at;
         }
@@ -190,7 +203,7 @@ final class User_informationRepository
             $user_information->deleted_at = $data->deleted_at;
         }
 
-        $query = 'UPDATE `user_information` SET `user_id` = :user_id, `church_id` = :church_id, `user_type` = :user_type, `first_name` = :first_name, `last_name` = :last_name, `passport` = :passport, `telephone` = :telephone, `street` = :street, `apartment` = :apartment, `suburb` = :suburb, `city` = :city, `province` = :province, `area_code` = :area_code, `race` = :race, `marital_status` = :marital_status, `vital_status` = :vital_status, `membership_number` = :membership_number, `password` = :password, `dateofbirth` = :dateofbirth, `created_at` = :created_at, `updated_at` = :updated_at, `deleted_at` = :deleted_at WHERE `id` = :id';
+        $query = 'UPDATE `user_information` SET `user_id` = :user_id, `church_id` = :church_id, `user_type` = :user_type, `first_name` = :first_name, `last_name` = :last_name, `passport` = :passport, `telephone` = :telephone, `street` = :street, `apartment` = :apartment, `suburb` = :suburb, `city` = :city, `province` = :province, `area_code` = :area_code, `race` = :race, `marital_status` = :marital_status, `vital_status` = :vital_status, `membership_number` = :membership_number, `password` = :password, `dateofbirth` = :dateofbirth, `age` = :age, `created_at` = :created_at, `updated_at` = :updated_at, `deleted_at` = :deleted_at WHERE `id` = :id';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('id', $user_information->id);
         $statement->bindParam('user_id', $user_information->user_id);
@@ -212,6 +225,7 @@ final class User_informationRepository
         $statement->bindParam('membership_number', $user_information->membership_number);
         $statement->bindParam('password', $user_information->password);
         $statement->bindParam('dateofbirth', $user_information->dateofbirth);
+        $statement->bindParam('age', $user_information->age);
         $statement->bindParam('created_at', $user_information->created_at);
         $statement->bindParam('updated_at', $user_information->updated_at);
         $statement->bindParam('deleted_at', $user_information->deleted_at);
@@ -287,5 +301,108 @@ final class User_informationRepository
             print_r($e);
         }
         
+    }
+
+    public function searchMemberWithCriteria(object $search_criteria) : bool|array
+    {
+        $query = 'SELECT * FROM `user_information` WHERE `user_type` = "member"';
+        //print_r($search_input);die();
+        //"AND ( `first_name` LIKE :frist_name OR `last_name` LIKE :last_name OR `passport` LIKE :passport OR `telephone` LIKE :telephone OR `membership_number` LIKE :membership OR `dateofbirth` LIKE :dateofbirth)"
+        $flag_first = 0;
+        if($search_criteria->province) {
+            if($flag_first == 0) {
+                $query .= ' AND( `province` LIKE :province';
+                $flag_first = 1;
+            }
+            else {
+                $query .= ' OR `province` LIKE :province';
+            }
+            $province = "%" . $search_criteria->province . "%";
+        }
+        if($search_criteria->city) {
+            if($flag_first == 0) {
+                $query .= ' AND( `city` LIKE :city';
+                $flag_first = 1;
+            }
+            else {
+                $query .= ' OR `city` LIKE :city';
+            }
+            $city = "%" . $search_criteria->city . "%";
+        }
+        if($search_criteria->suburb) {
+            if($flag_first == 0) {
+                $query .= ' AND( `suburb` LIKE :suburb';
+                $flag_first = 1;
+            }
+            else {
+                $query .= ' OR `suburb` LIKE :suburb';
+            }
+            $suburb = "%" . $search_criteria->suburb . "%";
+        }
+        if($search_criteria->merital_status) {
+            if($flag_first == 0) {
+                $query .= ' AND( `merital_status` LIKE :merital_status';
+                $flag_first = 1;
+            }
+            else {
+                $query .= ' OR `merital_status` LIKE :merital_status';
+            }
+            $merital_status = "%" . $search_criteria->merital_status . "%";
+        }
+        if($search_criteria->vital_status) {
+            if($flag_first == 0) {
+                $query .= ' AND( `vital_status` LIKE :vital_status';
+                $flag_first = 1;
+            }
+            else {
+                $query .= ' OR `vital_status` LIKE :vital_status';
+            }
+            $vital_status = "%" . $search_criteria->vital_status . "%";
+        }
+        if($search_criteria->age_range) {
+            $range = explode('-', $search_criteria->age_range);
+            if($flag_first == 0) {
+                $query .= ' AND( ( `age` > :range1 AND `age` < :range2)';
+                $flag_first = 1;
+            }
+            else {
+                $query .= ' OR ( `age` > :range1 AND `age` < :range2)';
+            }
+            $range1 = $range[0];
+            $range2 = $range[1];
+        }
+        if($flag_first == 1) {
+            $query .= ' )';
+        }
+        //echo $data; die();
+        try {
+            $statement = $this->getDb()->prepare($query); 
+            if($search_criteria->province) :
+                $statement->bindParam('province', $province);
+            endif;  
+            if($search_criteria->city) :
+                $statement->bindParam('city', $city);
+            endif;
+            if($search_criteria->suburb) :
+                $statement->bindParam('suburb', $suburb);
+            endif;
+            if($search_criteria->matiral_status) :
+                $statement->bindParam('matiral_status', $matiral_status);
+            endif;
+            if($search_criteria->vital_status) :
+                $statement->bindParam('vital_status', $vital_status);
+            endif;
+            if($search_criteria->age_range) :
+                $statement->bindParam('range1', $range1);
+                $statement->bindParam('range2', $range2);
+            endif;  
+            //echo $statement->queryString;die();
+            $statement->execute();
+
+            return (array) $statement->fetchAll();
+        }
+        catch(Exception $e) {
+            print_r($e);
+        }
     }
 }
