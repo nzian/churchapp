@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\User_attendance;
 
 use App\CustomResponse as Response;
-use App\Validator\UserAttendanceValidator;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Rakit\Validation\Validator;

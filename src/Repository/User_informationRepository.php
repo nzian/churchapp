@@ -99,7 +99,7 @@ final class User_informationRepository
 
     public function addGuest(object $user_information): object
     {
-        $query = 'INSERT INTO `user_information` (`id`, `user_id`, `church_id`, `user_type`, `first_name`, `last_name`, `passport`, `telephone`, `street`, `apartment`, `suburb`, `city`, `province`, `area_code`, `race`, `marital_status`, `vital_status`, `membership_number`, `password`, `dateofbirth`, `created_at`, `updated_at`, `deleted_at`) VALUES (:id, :user_id, :church_id, :user_type, :first_name, :last_name, :passport, :telephone, :street, :apartment, :suburb, :city, :province, :area_code, :race, :marital_status, :vital_status, :membership_number, :password, :dateofbirth, :age,  :created_at, :updated_at, :deleted_at)';
+        $query = 'INSERT INTO `user_information` (`id`, `user_id`, `church_id`, `user_type`, `first_name`, `last_name`, `passport`, `telephone`, `street`, `apartment`, `suburb`, `city`, `province`, `area_code`, `race`, `marital_status`, `vital_status`, `membership_number`, `password`, `dateofbirth`, `created_at`, `updated_at`, `deleted_at`) VALUES (:id, :user_id, :church_id, :user_type, :first_name, :last_name, :passport, :telephone, :street, :apartment, :suburb, :city, :province, :area_code, :race, :marital_status, :vital_status, :membership_number, :password, :dateofbirth, :age, :email, :phone,  :created_at, :updated_at, :deleted_at)';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('id', $user_information->id);
         $statement->bindParam('user_id', $user_information->user_id);
@@ -122,6 +122,8 @@ final class User_informationRepository
         $statement->bindParam('password', $user_information->password);
         $statement->bindParam('dateofbirth', $user_information->dateofbirth);
         $statement->bindParam('age', $user_information->age);
+        $statement->bindParam('phone', $user_information->phone);
+        $statement->bindParam('email', $user_information->email);
         $statement->bindParam('created_at', $user_information->created_at);
         $statement->bindParam('updated_at', $user_information->updated_at);
         $statement->bindParam('deleted_at', $user_information->deleted_at);

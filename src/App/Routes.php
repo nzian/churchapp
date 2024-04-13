@@ -64,6 +64,7 @@ $app->delete('/notifications/{id}', App\Controller\Notifications\Delete::class);
 $app->get('/user_attendance', App\Controller\User_attendance\GetAll::class);
 //$app->post('/user_attendance', App\Controller\User_attendance\Create::class);
 $app->post('/checkin/success', App\Controller\User_attendance\Create::class);
+$app->post('/attendance/{id}', App\Controller\User_attendance\GetAttendance::class);
 $app->get('/user_attendance/{id}', App\Controller\User_attendance\GetOne::class);
 $app->put('/user_attendance/{id}', App\Controller\User_attendance\Update::class);
 $app->delete('/user_attendance/{id}', App\Controller\User_attendance\Delete::class);

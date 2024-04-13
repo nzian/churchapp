@@ -43,6 +43,13 @@ final class User_attendanceService
                 'message' => "QR code is invalid",
             ];
         }
+        // check if user already make a checkin
+        if( $this->checkUserCheckin($user_attendance)) {
+            return (object)[
+                'error' => true,
+                'message' => "This User already checkedin",
+            ];
+        }
         $user_attendance->created_at = date('Y-m-d h:i:s');
         $user_attendance->updated_at = date('Y-m-d h:i:s');
         return $this->user_attendanceRepository->create($user_attendance);
@@ -60,5 +67,56 @@ final class User_attendanceService
     {
         $this->checkAndGet($user_attendanceId);
         $this->user_attendanceRepository->delete($user_attendanceId);
+    }
+
+    private function checkUserCheckin(object $checkin) : bool 
+    {
+        return $this->user_attendanceRepository->existCheckin($checkin);
+    }
+
+    public function allUserAttendance(array $input): array {
+        $attendance_filter = json_decode((string) json_encode($input), false);
+        // check which filter send by user
+        if($attendance_filter->start_date && $attendance_filter->end_date) {
+            $date_start = date('Y-m-d h:i:s', strtotime($attendance_filter->start_date));
+            $date_end = date('Y-m-d h:i:s', strtotime($attendance_filter->end_date));
+            return $this->user_attendanceRepository->getAttendanceAll($date_start,$date_end);
+        }
+        elseif($attendance_filter->month) {
+            if($attendance_filter->year) {
+                $date_start = date( $attendance_filter->year .'-m-01');
+                $date_end = date($attendance_filter->year .'-m-t');
+                return $this->user_attendanceRepository->getAttendanceAll($date_start,$date_end);
+            }
+            else {
+                $date_start = date('Y-m-01');
+                $date_end = date('Y-m-t');
+                return $this->user_attendanceRepository->getAttendanceAll($date_start,$date_end);
+            }
+           
+        }
+    }
+
+    public function getAttendanceByUserId(array $input, int $user_id): array {
+        $attendance_filter = json_decode((string) json_encode($input), false);
+        // check which filter send by user
+        if($attendance_filter->start_date && $attendance_filter->end_date) {
+            $date_start = date('Y-m-d h:i:s', strtotime($attendance_filter->start_date));
+            $date_end = date('Y-m-d h:i:s', strtotime($attendance_filter->end_date));
+            return $this->user_attendanceRepository->getAttendanceByUserId($user_id,$date_start,$date_end);
+        }
+        elseif($attendance_filter->month) {
+            if($attendance_filter->year) {
+                $date_start = date( $attendance_filter->year .'-m-01');
+                $date_end = date($attendance_filter->year .'-m-t');
+                return $this->user_attendanceRepository->getAttendanceByUserId($user_id,$date_start,$date_end);
+            }
+            else {
+                $date_start = date('Y-m-01');
+                $date_end = date('Y-m-t');
+                return $this->user_attendanceRepository->getAttendanceByUserId($user_id,$date_start,$date_end);
+            }
+           
+        }
     }
 }
