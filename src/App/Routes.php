@@ -13,7 +13,7 @@ $app->get('/remove-old-notification', 'App\Controller\Home:removeOldNotification
 $app->get('/test-push-notification', 'App\Controller\Home:testPushNotification');
 $app->get('/qrcodes', 'App\Controller\Home:getAllQrCodes');
 
-
+$app->get('/city-province', App\Controller\CityProvince::class);
 
 
 $app->get('/churches', App\Controller\Churches\GetAll::class);
