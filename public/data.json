@@ -7,7 +7,7 @@
   "apiBaseUrl": "https://churchapp.nzian.xyz",
   "splashIcon": "https://www.nzian.xyz/assets/img/church-logo.jpg",
   "pastorName": "Vermaak Petrus",
-  "pastorEmail": "misba.home@gmail.com",
+  "pastorEmail": "nzianit@gmail.com",
   "pushnotification": "on",
   "showcalendar": "on",
   "broadcastmessaging": "on",
@@ -67,7 +67,7 @@
   "adminMemner":[
     {
       "name": "admin1",
-      "email": "admin1@gmail.com",
+      "email": "misba.home@gmail.com",
       "permission":
         {
           "sendNotification" : "on",
@@ -83,7 +83,7 @@
     },
     {
       "name": "admin2",
-      "email": "admin2@gmail.com",
+      "email": "robin.zitf@gmail.com",
       "permission":
         {
           "sendNotification" : "on",
