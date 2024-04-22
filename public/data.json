@@ -66,8 +66,8 @@
   ],
   "adminMemner":[
     {
-      "name": "admin1",
-      "email": "misba.home@gmail.com",
+      "name": "Journaly Vermaak",
+      "email": "journaly@pkvministries.co.za",
       "permission":
         {
           "sendNotification" : "on",
@@ -82,8 +82,8 @@
         }
     },
     {
-      "name": "admin2",
-      "email": "robin.zitf@gmail.com",
+      "name": "Journaly Vermaak",
+      "email": "journalyb@pkvministries.co.za",
       "permission":
         {
           "sendNotification" : "on",
