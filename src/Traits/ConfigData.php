@@ -67,6 +67,12 @@ trait ConfigData
         if(isset($updated_data['googlemaps'])) {
             $config['googlemaps'] = $updated_data['googlemaps'];
         }
+        if(isset($updated_data['whatsapp'])) {
+            $config['whatsapp'] = $updated_data['whatsapp'];
+        }
+        if(isset($updated_data['tiktok'])) {
+            $config['tiktok'] = $updated_data['tiktok'];
+        }
         $result = $this->updateConfigData($config);
         
 //print_r($result);die();
@@ -91,6 +97,12 @@ trait ConfigData
         }
         if(isset($config['googlemaps'])) {
             $social['googlemaps'] = $config['googlemaps'];
+        }
+        if(isset($config['whatsapp'])) {
+            $social['whatsapp'] = $config['whatsapp'];
+        }
+        if(isset($config['tiktok'])) {
+            $social['tiktok'] = $config['tiktok'];
         }
         return $social;
     }
