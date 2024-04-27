@@ -10,14 +10,14 @@ use Kreait\Firebase\Messaging\CloudMessage;
 
 trait PushNotification
 {
-    public function sendPushNotification(array $user_tokens, object $notification): mixed
+    public function sendPushNotification(array $user_tokens, object $notification, string $church_name = 'Cfc1'): mixed
     {
         $error = [];
         $firebase = new FireBaseMessagingService();
         $messaging = $firebase->getFirebaseInstance()->createMessaging();
         $message = CloudMessage::fromArray([
             'notification' => [
-                'title' => "New Message Received",
+                'title' => $church_name,
                 'body' => " ",
             ]
         ])->withDefaultSounds(); // Any instance of Kreait\Messaging\Message

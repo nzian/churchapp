@@ -271,12 +271,21 @@ final class User_informationRepository
         return $user_information;
     }
 
-    public function getMemnerByOnlyPassword(object $user_info) : bool|object {
-        $query = 'SELECT * FROM `user_information` WHERE `password` = :password';
+    public function getMemnerByPasswordMembership(object $user_info) : bool|object {
+        $query = 'SELECT * FROM `user_information` WHERE `password` = :password AND `membership_number`:membership_number';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('password', $user_info->password);
+        $statement->bindParam('password', $user_info->membership_number);
         $statement->execute();
         $user_information = $statement->fetchObject();
+        return $user_information;
+    }
+
+    public function getSuburb(): array {
+        $query = 'SELECT distinct(suburb) as name FROM `user_information`';
+        $statement = $this->getDb()->prepare($query);
+        $statement->execute();
+        $user_information = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
         return $user_information;
     }
 

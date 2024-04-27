@@ -39,7 +39,7 @@ $tokens = [];
 foreach ($church_users_device_tokens as $k => $v) {
     array_push($tokens, $v['device_token']);
 }
-$notifications->push_notification_report = $this->sendPushNotification($tokens, $notifications);
+$notifications->push_notification_report = $this->sendPushNotification($tokens, $notifications,$this->config['churchName']);
 
 
 

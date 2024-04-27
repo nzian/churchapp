@@ -8,6 +8,7 @@ use App\CustomResponse as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Service\CityService;
 use App\Service\ProvinceService;
+use App\Service\User_informationService;
 use Pimple\Psr11\Container;
 use App\Traits\DataResponse;
 
@@ -23,10 +24,12 @@ final class CityProvince
     {
         $citys = $this->getCityService()->getAll();
         $provinces = $this->getProvinceService()->getAll();
+        $suburbs = $this->getUserInfomationService()->getSuburb();
 
         return $response->withJson($this->updateDataBeforeSendToResponse([
             'city' => $citys,
-            'province' => $provinces
+            'province' => $provinces,
+            'suburb' => $suburbs
         ]));
     }
 
@@ -37,5 +40,10 @@ final class CityProvince
     protected function getProvinceService(): ProvinceService
     {
         return $this->container->get('province_service');
+    }
+
+    protected function getUserInfomationService(): User_informationService
+    {
+        return $this->container->get('user_information_service');
     }
 }

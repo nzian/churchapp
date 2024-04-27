@@ -102,7 +102,7 @@ final class User_informationService
         $user_information = json_decode((string) json_encode($input), false);
         if($this->user_repository->getUserByid((int)$user_information->user_id)) :
             return $this->user_informationRepository->getMemberByUserPassword($user_information);
-        elseif($user_info = $this->user_informationRepository->getMemnerByOnlyPassword($user_information)):
+        elseif($user_info = $this->user_informationRepository->getMemnerByPasswordMembership($user_information)):
             $data = new stdClass;
             $data->user_id = $user_information->user_id;
             $this->user_informationRepository->update($user_info, $data);
@@ -114,17 +114,23 @@ final class User_informationService
 
     public function searchMember(array $input) : bool|array {
         $search_data = json_decode((string) json_encode($input), false);
-        if(!empty($search_data->search))
+        if(!empty($search_data->search)) {
             return $this->removeDeletedEntries($this->user_informationRepository->searchMember($search_data));
+        }
         return [];
     }
 
     public function searchMemberWithCriteria(array $input) : bool|array
     {
         $search_criteria = json_decode((string) json_encode($input), false);
-        if(!empty($search_criteria))
+        if(!empty($search_criteria)) {
             return $this->removeDeletedEntries($this->user_informationRepository->searchMemberWithCriteria($search_criteria));
+        }  
         return [];
+    }
+
+    public function getSuburb() : array {
+        return $this->user_informationRepository->getSuburb() ?? [];
     }
 
     private function calculateAge(string $dateofbirth): int {
@@ -134,4 +140,5 @@ final class User_informationService
         }
         return $result;
     }
+
 }
