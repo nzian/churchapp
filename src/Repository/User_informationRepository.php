@@ -282,7 +282,7 @@ final class User_informationRepository
     }
 
     public function getSuburb(): array {
-        $query = 'SELECT distinct(suburb) as name FROM `user_information`';
+        $query = 'SELECT distinct(suburb) as name FROM `user_information` where suburb is not NULL';
         $statement = $this->getDb()->prepare($query);
         $statement->execute();
         $user_information = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
