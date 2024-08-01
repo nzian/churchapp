@@ -8,18 +8,19 @@ use Psr\Http\Message\UploadedFileInterface;
 
 trait UploadedFile
 {
-    public function uploadedFileProcess(Request $inputs): Request 
+    public function uploadedFileProcess(Request $inputs): string 
     {
         $upload_dir = dirname(dirname(dirname(__FILE__))) . '/public/uploads';
+        $file_url = '';
         if(!empty($inputs->getUploadedFiles())) {
             $images = $inputs->getUploadedFiles();
             $single_image = $images['image'];
             if ($single_image->getError() === UPLOAD_ERR_OK) {
                 $filename = $this->moveUploadedFile($upload_dir, $single_image);
-                $inputs->image = getenv('APP_BASE_URL') . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . $filename;
+                $file_url =  getenv('APP_BASE_URL') . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . $filename;
             }
         }
-        return $inputs;
+        return $file_url;
 
     }
     public function moveUploadedFile(string $directory, UploadedFileInterface $uploadedFile)

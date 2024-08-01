@@ -19,8 +19,9 @@ final class Update extends Base
         Response $response,
         array $args
     ): Response {
-        $request = $this->uploadedFileProcess($request);
+        $image_url = $this->uploadedFileProcess($request);
         $input = (array) $request->getParsedBody();
+        $input['image'] = $image_url;
         $complains = $this->getComplainsService()->update($input, (int) $args['id']);
 
         return $response->withJson($complains);
