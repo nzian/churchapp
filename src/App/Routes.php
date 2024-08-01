@@ -94,3 +94,9 @@ $app->put('/city/{id}', App\Controller\City\Update::class);
 $app->delete('/city/{id}', App\Controller\City\Delete::class);
 
 
+
+$app->get('/complains', App\Controller\Complains\GetAll::class);
+$app->post('/complains', App\Controller\Complains\Create::class);
+$app->get('/complains/{id}', App\Controller\Complains\GetOne::class);
+$app->put('/complains/{id}', App\Controller\Complains\Update::class);
+$app->delete('/complains/{id}', App\Controller\Complains\Delete::class);

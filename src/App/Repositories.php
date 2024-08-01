@@ -38,3 +38,7 @@ $container['province_repository'] = static function (Pimple\Container $container
 $container['city_repository'] = static function (Pimple\Container $container): App\Repository\CityRepository {
     return new App\Repository\CityRepository($container['db']);
 };
+
+$container['complains_repository'] = static function (Pimple\Container $container): App\Repository\ComplainsRepository {
+    return new App\Repository\ComplainsRepository($container['db']);
+};

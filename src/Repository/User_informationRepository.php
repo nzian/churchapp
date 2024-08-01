@@ -289,7 +289,7 @@ final class User_informationRepository
         return $user_information;
     }
 
-    public function searchMember(object $search_input) : bool|array {
+    public function  searchMember(object $search_input) : bool|array {
         $query = 'SELECT * FROM `user_information` WHERE `user_type` = "member" AND ( `first_name` LIKE :first_name OR `last_name` LIKE :last_name OR `passport` LIKE :passport OR `telephone` LIKE :telephone OR `membership_number` LIKE :membership_number OR `dateofbirth` LIKE :dateofbirth)';
         //print_r($search_input);die();
         //"AND ( `first_name` LIKE :frist_name OR `last_name` LIKE :last_name OR `passport` LIKE :passport OR `telephone` LIKE :telephone OR `membership_number` LIKE :membership OR `dateofbirth` LIKE :dateofbirth)"

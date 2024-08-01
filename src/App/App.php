@@ -19,5 +19,4 @@ $customErrorHandler = require __DIR__ . '/ErrorHandler.php';
 (require __DIR__ . '/Repositories.php');
 (require __DIR__ . '/Routes.php');
 (require __DIR__ . '/NotFound.php')($app);
-
 return $app;

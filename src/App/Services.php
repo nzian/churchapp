@@ -38,3 +38,7 @@ $container['province_service'] = static function (Pimple\Container $container): 
 $container['city_service'] = static function (Pimple\Container $container): App\Service\CityService {
     return new App\Service\CityService($container['city_repository']);
 };
+
+$container['complains_service'] = static function (Pimple\Container $container): App\Service\ComplainsService {
+    return new App\Service\ComplainsService($container['complains_repository']);
+};

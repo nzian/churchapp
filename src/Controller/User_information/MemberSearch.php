@@ -26,8 +26,8 @@ final class MemberSearch extends Base
             return $response->withJson($this->updateDataBeforeSendToResponse($user_information));
         endif;
 
-        $user_info = new stdClass();
-        return $response->withJson($this->updateDataBeforeSendToResponse($user_info, 404, "Searching criteria not match with any member"));
+        $user_info = [];
+        return $response->withJson($this->updateDataBeforeSendToResponse($user_info, 404, "Searching data not match with any member"));
 
     }
 }
