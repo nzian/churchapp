@@ -17,6 +17,7 @@ return static function (App $app, Closure $customErrorHandler): void {
 //echo  '---' . getenv('DB_PORT');die();
 $app->add(new \Tuupola\Middleware\HttpBasicAuthentication([
     "secure" => getenv('API_SECURE'),
+    "ignore" => ["/uploads"],
     "relaxed" => ["localhost", "devng.churchapp","127.0.0.1"],
     "users" => [
         getenv('API_USER') =>  getenv('API_PASSWORD')
